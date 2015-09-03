@@ -1,6 +1,6 @@
-// This is the CPP file you will edit and turn in.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header
+// Author: Viktor Holmgren, Yosif Touma
+// A simple Conway's Game of Life implementation, able to load patterns stored in external text files.
+// The user can show whether to advance the patterns step-by-step or using an automatic animation which triggers every 100ms
 
 #include <iostream>
 #include "grid.h"
@@ -13,6 +13,7 @@ using namespace std;
 
 Grid<char> grid = Grid<char>();
 
+// Shows the welcome message to the user
 void showWelcomeMsg (){
     const char *msg =
             "Welcome to the TDDD86 Game of Life, \n"
@@ -25,6 +26,7 @@ void showWelcomeMsg (){
     cout << msg << endl;
 }
 
+// Asks the user for a file containing a pattern and opens it, stores the content in the ifstream
 void openUserFile(ifstream& input) {
     while (true) {
         string fileName;
@@ -40,6 +42,7 @@ void openUserFile(ifstream& input) {
 
 }
 
+// Displays the global grid in the console
 void printGrid() {
     for (int row = 0; row < grid.numRows(); ++row) {
         cout << endl;
@@ -49,6 +52,7 @@ void printGrid() {
     cout << endl;
 }
 
+// Loads the grid with a given starting pattern
 void loadGrid(ifstream& input){
     int rows, cols;
     input >> rows >> cols;
@@ -66,16 +70,17 @@ void loadGrid(ifstream& input){
             grid.set(row, col, line[col]);
         }
     }
-    printGrid();
+    printGrid(); // Print the starting pattern
 }
 
+// Initialize the game
 void initGame() {
     ifstream input;
     openUserFile(input);
     loadGrid(input);
-    //cout << input.rdbuf();
 }
 
+// Returns the number of neighbors to a given position (living cells in contact)
 int countNeighbors(int row, int col) {
     int res = 0;
     for (int y = -1; y <= 1; ++y) {
@@ -90,9 +95,10 @@ int countNeighbors(int row, int col) {
     return res;
 }
 
+// Steps the simulation forward one step in time
 void doTick() {
 
-    Grid<char> newGrid = grid; // Make a temporary copy
+    Grid<char> newGrid = grid; // make a temporary copy
 
     for (int row = 0; row < grid.numRows(); ++row) {
 
@@ -108,41 +114,43 @@ void doTick() {
                 newGrid.set(row, col, '-');
         }
     }
-    grid = newGrid;
+    grid = newGrid; // update the grid
+    printGrid(); // redraw the grid
 }
 
+// Start contineous animation (tick every 100ms)
 void startAnimation() {
     while (true) {
         doTick();
-        printGrid();
         pause(100);
     }
 }
 
 int main() {
-
-    // TODO: Finish the program!
-
-    grid = Grid<char>();
     showWelcomeMsg();
     initGame();
 
+    const string CMD_OPTIONS_STRING = "a)animate, t)ick, q)uit ";
+
     while (true) {
-        cout << "a)nimate, t(ick, q)uit? ";
-        string cmd;
-        cin >> cmd;
+
+        cout << CMD_OPTIONS_STRING;
+
+        char cmdKey;
+        cin >> cmdKey;
         cout << endl;
-        if (cmd == "a") {
+
+        if (cmdKey == 'a') {
             startAnimation();
         }
-        else if (cmd == "t") {
+        else if (cmdKey == 't') {
             doTick();
-            printGrid();
         }
-        else if (cmd == "q") {
+        else if (cmdKey == 'q') {
             break;
         }
 
     }
+    cout << "Have a nice Life!" << endl;
     return 0;
 }
