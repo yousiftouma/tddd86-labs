@@ -19,14 +19,14 @@ void loadDictionary(ifstream& input, set<string>& dictionary) {
 }
 
 // Returns all valid neighbouring words (words in the provided dictionary) to a given word
-vector<string> neighbouringWords(string word, set<string> validWords) {
+vector<string> neighbouringWords(string word, set<string>& validWords) {
     vector<string> words = vector<string>();
-    for (int i = 0; i < word.size(); ++i) {
+    for (size_t i = 0; i < word.size(); ++i) {
         for (auto character : alphabet) {
             string tempWord = word;
             tempWord[i] = character;
 
-            if (validWords.find(tempWord) != validWords.end() && tempWord[i] != word[i]) {
+            if (tempWord[i] != word[i] && validWords.find(tempWord) != validWords.end()) {
                 words.push_back(tempWord);
             }
         }
@@ -35,7 +35,7 @@ vector<string> neighbouringWords(string word, set<string> validWords) {
 }
 
 
-stack<string> wordChain(string startWord, string goalWord, set<string> validWords) {
+stack<string> wordChain(string startWord, string goalWord, set<string>& validWords) {
 
     set<string> alreadyVisited = set<string>();
 
@@ -55,6 +55,7 @@ stack<string> wordChain(string startWord, string goalWord, set<string> validWord
             vector<string> neighbours = neighbouringWords(wordStack.top(), validWords);
             for (string word : neighbours) {
                 if (alreadyVisited.find(word) == alreadyVisited.end()) {
+                    alreadyVisited.insert(word);
                     stack<string> tempWordStack = wordStack;
                     tempWordStack.push(word);
                     wordChains.push(tempWordStack);
@@ -66,6 +67,20 @@ stack<string> wordChain(string startWord, string goalWord, set<string> validWord
     return stack<string>();
 }
 
+void printResult(stack<string> resultChain) {
+
+    if (resultChain.size() == 0) {
+        cout << "Did not find any word chain for those words" << endl;
+        return;
+    }
+
+    while (!resultChain.empty()) {
+        string word = resultChain.top();
+        cout << word << " ";
+        resultChain.pop();
+    }
+    cout << endl;
+}
 
 int main() {
     cout << "Welcome to TDDD86 Word Chain." << endl;
@@ -76,6 +91,8 @@ int main() {
     string startWord, goalWord;
     cout << "Please type two words: ";
     cin >> startWord >> goalWord;
+    cout << "Chain from " << startWord << " back to " << goalWord << ":" << endl;
+
 
     set<string> validWords = set<string>();
     ifstream dictionaryFile;
@@ -83,12 +100,9 @@ int main() {
     loadDictionary(dictionaryFile, validWords);
     dictionaryFile.close();
 
-    auto word = validWords.find("data");
-    cout << validWords.size() << (*word) << endl;
+    printResult(wordChain(startWord, goalWord, validWords));
 
-    auto words = neighbouringWords("date", validWords);
-    for (auto x : words)
-        cout << x << endl;
+    cout << "Have a nice day!" << endl;
 
     return 0;
 }
