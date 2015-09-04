@@ -11,8 +11,6 @@
 
 using namespace std;
 
-Grid<char> grid = Grid<char>();
-
 // Shows the welcome message to the user
 void showWelcomeMsg (){
     const char *msg =
@@ -43,7 +41,7 @@ void openUserFile(ifstream& input) {
 }
 
 // Displays the global grid in the console
-void printGrid() {
+void printGrid(Grid<char>& grid) {
     for (int row = 0; row < grid.numRows(); ++row) {
         cout << endl;
         for (int col = 0; col < grid.numCols(); ++col)
@@ -53,7 +51,7 @@ void printGrid() {
 }
 
 // Loads the grid with a given starting pattern
-void loadGrid(ifstream& input){
+void loadGrid(ifstream& input, Grid<char>& grid){
     int rows, cols;
     input >> rows >> cols;
 
@@ -70,18 +68,18 @@ void loadGrid(ifstream& input){
             grid.set(row, col, line[col]);
         }
     }
-    printGrid(); // Print the starting pattern
+    printGrid(grid); // Print the starting pattern
 }
 
 // Initialize the game
-void initGame() {
+void initGame(Grid<char>& grid) {
     ifstream input;
     openUserFile(input);
-    loadGrid(input);
+    loadGrid(input, grid);
 }
 
 // Returns the number of neighbors to a given position (living cells in contact)
-int countNeighbors(int row, int col) {
+int countNeighbors(int row, int col, Grid<char>& grid) {
     int res = 0;
     for (int y = -1; y <= 1; ++y) {
         for (int x = -1; x <= 1; ++x) {
@@ -96,7 +94,7 @@ int countNeighbors(int row, int col) {
 }
 
 // Steps the simulation forward one step in time
-void doTick() {
+void doTick(Grid<char>& grid) {
 
     Grid<char> newGrid = grid; // make a temporary copy
 
@@ -104,7 +102,7 @@ void doTick() {
 
         for (int col = 0; col < grid.numCols(); ++col) {
 
-            int neighbors = countNeighbors(row, col);
+            int neighbors = countNeighbors(row, col, grid);
 
             if (neighbors == 3)
                 newGrid.set(row, col, 'X');
@@ -115,20 +113,22 @@ void doTick() {
         }
     }
     grid = newGrid; // update the grid
-    printGrid(); // redraw the grid
+    printGrid(grid); // redraw the grid
 }
 
 // Start continuous animation (tick every 100ms)
-void startAnimation() {
+void startAnimation(Grid<char>& grid) {
     while (true) {
-        doTick();
+        doTick(grid);
         pause(100);
     }
 }
 
 int main() {
+    Grid<char> grid = Grid<char>();
+
     showWelcomeMsg();
-    initGame();
+    initGame(grid);
 
     const string CMD_OPTIONS_STRING = "a)animate, t)ick, q)uit ";
 
@@ -141,10 +141,10 @@ int main() {
         cout << endl;
 
         if (cmdKey == 'a') {
-            startAnimation();
+            startAnimation(grid);
         }
         else if (cmdKey == 't') {
-            doTick();
+            doTick(grid);
         }
         else if (cmdKey == 'q') {
             break;
