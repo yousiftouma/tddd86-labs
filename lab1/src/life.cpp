@@ -30,7 +30,7 @@ void showWelcomeMsg (){
 void openUserFile(ifstream& input) {
     while (true) {
         string fileName;
-        cout << "Enter filename: ";
+        cout << "Grid input file name? ";
         getline(cin, fileName);
 
         input.open(fileName.c_str());
