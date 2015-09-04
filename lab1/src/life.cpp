@@ -118,7 +118,7 @@ void doTick() {
     printGrid(); // redraw the grid
 }
 
-// Start contineous animation (tick every 100ms)
+// Start continuous animation (tick every 100ms)
 void startAnimation() {
     while (true) {
         doTick();
