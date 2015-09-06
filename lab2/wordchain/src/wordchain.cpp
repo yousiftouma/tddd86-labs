@@ -102,7 +102,7 @@ int main() {
     string startWord, goalWord;
     cout << "Please type two words: ";
     cin >> startWord >> goalWord;
-    cout << "Chain from " << startWord << " back to " << goalWord << ":" << endl;
+    cout << "Chain from " << goalWord << " back to " << startWord << ":" << endl;
 
 
     set<string> validWords = set<string>();
