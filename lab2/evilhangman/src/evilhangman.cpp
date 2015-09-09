@@ -35,21 +35,17 @@ void printGuessedChars(set<char>& guessedChars) {
 }
 
 char makeGuess(set<char>& guessedChars){
-    char guess;
+    string guess;
 
-    // Get rid of remaining new line
-    //getline(cin, guess);
     while (true) {
+        cout << "Please enter a guess: ";
+        getline(cin, guess);
 
-        cout << "Please enter a guess: " << endl;
-        string dummy;
-        getline(cin, dummy);
-
-        if (dummy.length() > 1) {
-            cout << "Do not enter more then one character" << endl;
-        } else if (guessedChars.find(dummy[0]) == guessedChars.end() && alphabet.find(dummy[0]) != string::npos){
-            guessedChars.insert(dummy[0]);
-            return dummy[0];
+        if (guess.size() > 1) {
+            cout << "Only enter one character!" << endl;
+        } else if (guessedChars.find(guess[0]) == guessedChars.end() && alphabet.find(guess[0]) != string::npos){
+            guessedChars.insert(guess[0]);
+            return guess[0];
         }
     }
 }
@@ -123,7 +119,7 @@ void hangman(vector<string>& wordList, int wordLength, bool doLogging, int numbe
 
         if (currentWord.find('-') == string::npos) {
             displayResult(true, currentWord);
-            return; // End game early
+            return; // End game early, won
         }
 
         // Padding for next round
@@ -167,6 +163,7 @@ int main() {
         while(true) {
             cout << "Would you like to see how many possible words are left? y/n: ";
             cin >> ans;
+            cin.clear(); // flush the cin buffer
 
             if (ans == "y" or ans == "n") {
                 doLogging = ans == "y";
