@@ -7,9 +7,17 @@
 
 using namespace std;
 
+// Author: Viktor Holmgren, Yousif Touma
+// A program that plays Hangman with the user, where the user does the guessing
+// The program in fact cheats in order to improve its chances. They way it does this is
+// by not actually choosing a word at the start, but instead use a ever smaller amount of words
+// as the user keeps guessing.
+
+
 const string alphabet  = "abcdefghijklmnopqrstuvwxyz";
 const string dictionaryFilename = "dictionary.txt";
 
+// Loads the dictionary of all valid words into our initial worldlist
 vector<string> loadDictionary() {
 
     // Open file
@@ -26,6 +34,7 @@ vector<string> loadDictionary() {
     return wordList;
 }
 
+// Prints all the guesses made by the user so far
 void printGuessedChars(set<char>& guessedChars) {
     cout << "Your guesses so far: ";
     for (auto iter = guessedChars.begin(); iter != guessedChars.end(); ++iter) {
@@ -34,6 +43,7 @@ void printGuessedChars(set<char>& guessedChars) {
     cout << endl;
 }
 
+// Asks the user for character, i.e a guess. Validates that the user enters only one character and it has not been used before
 char makeGuess(set<char>& guessedChars){
     string guess;
 
@@ -50,6 +60,7 @@ char makeGuess(set<char>& guessedChars){
     }
 }
 
+// Calculates the most optimal word family from a map of families, and returns the key of the familiy
 string chooseWordFamiliy(map<string, vector<string> > families, vector<string>& wordList) {
     size_t largest = 0;
     string key;
@@ -64,6 +75,7 @@ string chooseWordFamiliy(map<string, vector<string> > families, vector<string>& 
     return key;
 }
 
+// Returns all word families with the given word length and matching the current word
 map<string, vector<string> > makeWordFamilies(vector<string> wordList, int wordLength, string currentWord, char guess) {
     map<string, vector<string> > families;
 
@@ -85,6 +97,7 @@ map<string, vector<string> > makeWordFamilies(vector<string> wordList, int wordL
     return families;
 }
 
+// Displays the choosen word and whether the user has won
 void displayResult(bool hasWon, string word) {
     if (hasWon) {
         cout << "Congratulations! You won!" << endl;
@@ -94,6 +107,7 @@ void displayResult(bool hasWon, string word) {
     cout << "The word was: " << word << endl;
 }
 
+// Main function, calls the sub functions, i.e asking for input, calculating word families
 void hangman(vector<string>& wordList, int wordLength, bool doLogging, int numberOfGuesses) {
     set<char> guessedChars = set<char>();
     string currentWord = string(wordLength, '-');
@@ -129,7 +143,6 @@ void hangman(vector<string>& wordList, int wordLength, bool doLogging, int numbe
 }
 
 int main() {
-
 
     while (true) {
         cout << "Welcome to Hangman." << endl;
@@ -181,7 +194,5 @@ int main() {
             break;
         }
     }
-
-
     return 0;
 }
