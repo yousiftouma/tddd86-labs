@@ -65,6 +65,7 @@ string chooseWordFamiliy(map<string, vector<string> > families, vector<string>& 
 
     // Only one guess left, pick family not matching guess if possible
     if (guessesLeft == 1 && families.find(currentWord) != families.end()) {
+        wordList = families[currentWord];
         return currentWord;
     }
 
