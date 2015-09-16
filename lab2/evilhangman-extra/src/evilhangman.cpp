@@ -15,7 +15,7 @@ using namespace std;
 
 
 const string alphabet  = "abcdefghijklmnopqrstuvwxyz";
-const string dictionaryFilename = "/home/vikho394/work/c++/labbar-tddd86/lab2/evilhangman-extra/res/extra.txt";
+const string dictionaryFilename = "../res/extra.txt";
 
 // Loads the dictionary of all valid words into our initial worldlist
 vector<string> loadDictionary() {
