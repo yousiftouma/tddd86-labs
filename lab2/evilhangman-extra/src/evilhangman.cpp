@@ -61,34 +61,38 @@ char makeGuess(set<char>& guessedChars){
 }
 
 // Calculates the most optimal word family from a map of families, and returns the key of the familiy
-string chooseWordFamiliy(map<string, vector<string> > families, vector<string>& wordList, int guessesLeft, string currentWord) {
+string chooseWordFamiliy(map<string, pair<vector<string>, int> > families, vector<string>& wordList, int guessesLeft, string currentWord) {
 
     // Only one guess left, pick family not matching guess if possible
     if (guessesLeft == 1 && families.find(currentWord) != families.end()) {
-        wordList = families[currentWord];
+        wordList = families[currentWord].first;
         return currentWord;
     }
 
-    size_t largest = 0;
+    int highestWeight = 0;
     string key;
     for (auto it = families.begin(); it != families.end(); ++it) {
-        if (it->second.size() > largest) {
+        int weight = it->second.second;
+        if (weight > highestWeight) {
             key = it->first;
-            largest = it->second.size();
+            highestWeight = weight;
         }
     }
     auto iter = families.find(key);
-    wordList = iter->second;
+    wordList = iter->second.first;
     return key;
 }
 
 // Returns all word families with the given word length and matching the current word
-map<string, vector<string> > makeWordFamilies(vector<string> wordList, int wordLength, string currentWord, char guess) {
-    map<string, vector<string> > families;
-
+map<string, pair<vector<string>, int> > makeWordFamilies(vector<string>& wordList, map<char, int> charWeights, 
+                                              int wordLength, string currentWord, char guess) {
+    map<string, pair<vector<string>, int> > families;
+ 
     for (string word : wordList) {
+        int wordWeight = 0;
         string key = currentWord;
         for (int i = 0; i < wordLength; ++i) {
+            wordWeight += charWeights[word[i]];
             if (word[i] == guess) {
                 key[i] = guess;
             }
@@ -96,9 +100,10 @@ map<string, vector<string> > makeWordFamilies(vector<string> wordList, int wordL
         if (families.find(key) == families.end()) {
             vector<string> tempVector;
             tempVector.push_back(word);
-            families.insert(pair<string, vector<string> >(key, tempVector));
+            families[key] = make_pair(tempVector, wordWeight);
         } else {
-            families[key].push_back(word);
+            families[key].first.push_back(word);
+            families[key].second += wordWeight; // Update weight
         }
     }
     return families;
@@ -115,7 +120,8 @@ void displayResult(bool hasWon, string word) {
 }
 
 // Main function, calls the sub functions, i.e asking for input, calculating word families
-void hangman(vector<string>& wordList, int wordLength, bool doLogging, int numberOfGuesses) {
+void hangman(vector<string>& wordList, map<char, int> charWeights, int wordLength, bool doLogging, 
+             int numberOfGuesses) {
     set<char> guessedChars = set<char>();
     string currentWord = string(wordLength, '-');
 
@@ -130,7 +136,8 @@ void hangman(vector<string>& wordList, int wordLength, bool doLogging, int numbe
         }
 
         char guess = makeGuess(guessedChars);
-        map<string, vector<string> > families = makeWordFamilies(wordList, wordLength, currentWord, guess);
+        auto families = makeWordFamilies(wordList, charWeights, wordLength, 
+                                                                 currentWord, guess);
         string newCurrentWord = chooseWordFamiliy(families, wordList, numberOfGuesses, currentWord);
 
         if (newCurrentWord == currentWord) {
@@ -149,11 +156,25 @@ void hangman(vector<string>& wordList, int wordLength, bool doLogging, int numbe
     displayResult(false, wordList.front());
 }
 
+map<char, int> initCharWeights() {
+    vector<string> charFamiles = {"esiarn", "tolcdu", "pmghby", "fvkwzx", "qj"};
+    map<char, int> charWeights;
+    int weight = 1;
+    for (string family : charFamiles) {
+        for (char character : family) {
+            charWeights[character] = weight;
+      }
+      weight += 2; // Weight increase
+    }
+    return charWeights;
+}
+
 int main() {
 
     while (true) {
         cout << "Welcome to Hangman." << endl;
         vector<string> wordList = loadDictionary();
+        map<char, int> charWeights = initCharWeights();
 
         size_t wordLength;
         while (true) {
@@ -192,7 +213,7 @@ int main() {
         }
 
         cout << endl; // Padding
-        hangman(wordList,wordLength, doLogging, numberOfGuesses);
+        hangman(wordList, charWeights, wordLength, doLogging, numberOfGuesses);
         cout << "Do you want to try again (y/n): ";
         cin >> ans;
         cout << endl;
