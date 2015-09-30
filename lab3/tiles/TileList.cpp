@@ -1,8 +1,5 @@
-// This is the .cpp file you will edit and turn in.
-// We have provided a skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header
+// Author: Viktor Holmgren, Yousif Touma
+// A implementation of the Lab3A task.
 
 #include "TileList.h"
 
@@ -14,7 +11,7 @@ TileList::TileList(const TileList &other) {
 
 TileList::~TileList()
 {
-    delete[] m_tiles;
+    delete[] m_tiles; // free memory
 }
 
 TileList& TileList::operator =(const TileList &other) {
@@ -50,6 +47,7 @@ int TileList::indexOfTopTile(int x, int y) const
 void TileList::raise(int x, int y)
 {
     int index = indexOfTopTile(x, y);
+    // make sure that a tile covering x,y exists
     if (index != -1) {
         Tile to_copy = m_tiles[index];
         shiftLeft(index);
@@ -60,6 +58,7 @@ void TileList::raise(int x, int y)
 void TileList::lower(int x, int y)
 {
     int index = indexOfTopTile(x, y);
+    // make sure that a tile covering x,y exists
     if (index != -1) {
         Tile to_copy = m_tiles[index];
         shiftRight(index);
@@ -86,13 +85,15 @@ void TileList::removeAll(int x, int y)
 
 void TileList::checkResize() {
     if (m_size == m_capacity) { // out of space
-        Tile* expanded_list = new Tile[m_capacity * 2];
+
+        int new_size = m_capacity * 2;
+        Tile* expanded_list = new Tile[new_size];
         for (int i = 0; i < m_size; ++i) {
             expanded_list[i] = m_tiles[i];
         }
         delete[] m_tiles; // free old list
         m_tiles = expanded_list;
-        m_capacity *= 2;
+        m_capacity = new_size;
     }
 }
 
