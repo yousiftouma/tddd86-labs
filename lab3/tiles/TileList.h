@@ -35,6 +35,7 @@ private:
     Tile* m_tiles = new Tile[m_capacity];
 
     void checkResize();
+    void shiftList(int x, int y, bool dir_right);
 };
 
 #endif // TILELIST_H

@@ -35,34 +35,12 @@ int TileList::indexOfTopTile(int x, int y) const
 
 void TileList::raise(int x, int y)
 {
-    Tile to_copy;
-    for (int pos = m_size - 1; pos >= 0; --pos) {
-        if (m_tiles[pos].contains(x, y)) {
-            to_copy = m_tiles[pos];
-
-            for (int i = pos; i < m_size - 1; ++i) {
-                m_tiles[i] = m_tiles[i+1];
-            }
-            m_tiles[m_size-1] = to_copy;
-            return;
-        }
-    }
+    shiftList(x, y, true);
 }
 
 void TileList::lower(int x, int y)
 {
-    Tile to_copy;
-    for (int pos = m_size - 1; pos >= 0; --pos) {
-        if (m_tiles[pos].contains(x, y)) {
-            to_copy = m_tiles[pos];
-
-            for (int i = pos - 1; i >= 0; --i) {
-                m_tiles[i+1] = m_tiles[i];
-            }
-            m_tiles[0] = to_copy;
-            return;
-        }
-    }
+    shiftList(x, y, false);
 }
 
 void TileList::remove(int x, int y)
@@ -85,3 +63,58 @@ void TileList::checkResize() {
         m_capacity *= 2;
     }
 }
+
+void TileList::shiftList(int x, int y, bool dir_right) {
+    Tile to_copy;
+    for (int pos = m_size - 1; pos >= 0; --pos) {
+        if (m_tiles[pos].contains(x, y)) {
+            to_copy = m_tiles[pos];
+
+            if (dir_right) {
+                for (int i = pos; i < m_size - 1; ++i) {
+                    m_tiles[i] = m_tiles[i+1];
+                }
+                m_tiles[m_size-1] = to_copy;
+            }
+            else {
+                for (int i = pos - 1; i >= 0; --i) {
+                    m_tiles[i+1] = m_tiles[i];
+                }
+                m_tiles[0] = to_copy;
+            }
+            return;
+        }
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
