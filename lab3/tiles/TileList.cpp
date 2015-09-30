@@ -12,17 +12,17 @@ TileList::TileList(const TileList &other) {
     copyOther(other);
 }
 
+TileList::~TileList()
+{
+    delete[] m_tiles;
+}
+
 TileList& TileList::operator =(const TileList &other) {
-    if (this != other) {
+    if (this != &other) {
         delete[] m_tiles;
         copyOther(other);
     }
     return *this;
-}
-
-TileList::~TileList()
-{
-    delete[] m_tiles;
 }
 
 void TileList::addTile(Tile tile)
@@ -41,7 +41,7 @@ void TileList::drawAll(QGraphicsScene* scene) const
 
 int TileList::indexOfTopTile(int x, int y) const
 {
-    for (int i = m_size; i >= 0; --i) {
+    for (int i = m_size - 1; i >= 0; --i) {
         if (m_tiles[i].contains(x, y)) return i;
     }
     return -1; // no tile is covering x,y
@@ -49,12 +49,22 @@ int TileList::indexOfTopTile(int x, int y) const
 
 void TileList::raise(int x, int y)
 {
-    shiftList(x, y, true);
+    int index = indexOfTopTile(x, y);
+    if (index != -1) {
+        Tile to_copy = m_tiles[index];
+        shiftLeft(index);
+        m_tiles[m_size-1] = to_copy;
+    }
 }
 
 void TileList::lower(int x, int y)
 {
-    shiftList(x, y, false);
+    int index = indexOfTopTile(x, y);
+    if (index != -1) {
+        Tile to_copy = m_tiles[index];
+        shiftRight(index);
+        m_tiles[0] = to_copy;
+    }
 }
 
 void TileList::remove(int x, int y)
@@ -98,25 +108,7 @@ void TileList::shiftRight(int pos) {
     }
 }
 
-void TileList::shiftList(int x, int y, bool do_raise) {
-    Tile to_copy;
-    for (int pos = m_size - 1; pos >= 0; --pos) {
-        if (m_tiles[pos].contains(x, y)) {
-            to_copy = m_tiles[pos];
-
-            if (do_raise) {
-                shiftLeft(pos);
-                m_tiles[m_size-1] = to_copy;
-            } else {
-                shiftRight(pos);
-                m_tiles[0] = to_copy;
-            }
-            return;
-        }
-    }
-}
-
-void TileList::copyOther(TileList &other) {
+void TileList::copyOther(const TileList &other) {
     m_size = other.m_size;
     m_capacity = other.m_capacity;
     m_tiles = new Tile[m_capacity]; // deep copy
