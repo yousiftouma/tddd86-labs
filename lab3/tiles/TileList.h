@@ -36,6 +36,8 @@ private:
 
     void checkResize();
     void shiftList(int x, int y, bool do_raise);
+    void shiftRight(int pos);
+    void shiftLeft(int pos);
 };
 
 #endif // TILELIST_H
