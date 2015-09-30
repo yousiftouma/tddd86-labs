@@ -29,8 +29,10 @@ void TileList::drawAll(QGraphicsScene* scene) const
 
 int TileList::indexOfTopTile(int x, int y) const
 {
-    return 4;
-    // TODO: write this member
+    for (int i = m_size; i >= 0; --i) {
+        if (m_tiles[i].contains(x, y)) return i;
+    }
+    return -1; // no tile is covering x,y
 }
 
 void TileList::raise(int x, int y)
@@ -64,13 +66,13 @@ void TileList::checkResize() {
     }
 }
 
-void TileList::shiftList(int x, int y, bool dir_right) {
+void TileList::shiftList(int x, int y, bool do_raise) {
     Tile to_copy;
     for (int pos = m_size - 1; pos >= 0; --pos) {
         if (m_tiles[pos].contains(x, y)) {
             to_copy = m_tiles[pos];
 
-            if (dir_right) {
+            if (do_raise) {
                 for (int i = pos; i < m_size - 1; ++i) {
                     m_tiles[i] = m_tiles[i+1];
                 }
