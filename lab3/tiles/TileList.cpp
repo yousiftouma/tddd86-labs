@@ -47,11 +47,19 @@ void TileList::lower(int x, int y)
 
 void TileList::remove(int x, int y)
 {
+    int index = indexOfTopTile(x, y);
 
+    if (index != -1) {
+        shiftLeft(index);
+        --m_size;
+    }
 }
 
 void TileList::removeAll(int x, int y)
 {
+    while (indexOfTopTile(x, y) != -1) {
+        remove(x, y);
+    }
 }
 
 void TileList::checkResize() {
