@@ -20,6 +20,8 @@
 class TileList {
 public:
     TileList();
+    TileList(const TileList &other);
+    TileList& operator=(const TileList &other);
     ~TileList();
     void addTile(Tile tile);
     void drawAll(QGraphicsScene* scene) const;
@@ -38,6 +40,8 @@ private:
     void shiftList(int x, int y, bool do_raise);
     void shiftRight(int pos);
     void shiftLeft(int pos);
+
+    void copyOther(TileList &other);
 };
 
 #endif // TILELIST_H

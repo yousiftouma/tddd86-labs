@@ -8,6 +8,18 @@
 
 TileList::TileList() {}
 
+TileList::TileList(const TileList &other) {
+    copyOther(other);
+}
+
+TileList& TileList::operator =(const TileList &other) {
+    if (this != other) {
+        delete[] m_tiles;
+        copyOther(other);
+    }
+    return *this;
+}
+
 TileList::~TileList()
 {
     delete[] m_tiles;
@@ -104,29 +116,13 @@ void TileList::shiftList(int x, int y, bool do_raise) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void TileList::copyOther(TileList &other) {
+    m_size = other.m_size;
+    m_capacity = other.m_capacity;
+    m_tiles = new Tile[m_capacity]; // deep copy
+    for (int i = 0; i < m_size; i++) {
+            m_tiles[i] = other.m_tiles[i];
+    }
+}
 
 
