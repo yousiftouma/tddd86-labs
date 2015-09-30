@@ -51,7 +51,18 @@ void TileList::raise(int x, int y)
 
 void TileList::lower(int x, int y)
 {
-    // TODO: write this member
+    Tile to_copy;
+    for (int pos = m_size - 1; pos >= 0; --pos) {
+        if (m_tiles[pos].contains(x, y)) {
+            to_copy = m_tiles[pos];
+
+            for (int i = pos - 1; i >= 0; --i) {
+                m_tiles[i+1] = m_tiles[i];
+            }
+            m_tiles[0] = to_copy;
+            return;
+        }
+    }
 }
 
 void TileList::remove(int x, int y)
