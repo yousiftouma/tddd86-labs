@@ -55,7 +55,21 @@ void Tour::show()
 
 void Tour::draw(QGraphicsScene *scene)
 {
-    // TODO: write this member
+    if (front == nullptr) {
+        cout << "Empty tour" << endl;
+        return;
+    }
+
+    Node* current_slow = front;
+    Node* current_fast = front;
+
+    do {
+        current_slow->point.draw(scene);
+        current_slow->point.drawTo(current_slow->next->point, scene);
+        current_slow = current_slow->next;
+        current_fast = current_fast->next->next;
+    }
+    while (current_fast != current_slow);
 }
 
 int Tour::size()

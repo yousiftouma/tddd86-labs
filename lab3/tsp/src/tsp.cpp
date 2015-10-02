@@ -26,7 +26,6 @@ int main(int argc, char *argv[]) {
     squareTour.show();
     cout << squareTour.size() << endl;
     cout << squareTour.distance() << endl;
-    return 0;
 
     QApplication a(argc, argv);
 
@@ -47,6 +46,10 @@ int main(int argc, char *argv[]) {
     view->scale(1, -1); //screen y-axis is inverted
     view->setSceneRect(0, 0, width, height);
     view->show();
+
+    squareTour.draw(scene);
+
+    return a.exec();
 
     // run insertion heuristic
     Tour tour;
