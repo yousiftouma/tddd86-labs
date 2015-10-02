@@ -16,6 +16,18 @@
 #include "Tour.h"
 
 int main(int argc, char *argv[]) {
+
+    Point p(100.0, 100.0);
+    Point q(500.0, 100.0);
+    Point r(500.0, 500.0);
+    Point s(100.0, 500.0);
+
+    Tour squareTour(p, q, r, s);
+    squareTour.show();
+    cout << squareTour.size() << endl;
+    cout << squareTour.distance() << endl;
+    return 0;
+
     QApplication a(argc, argv);
 
     string filename = "tsp10.txt";
