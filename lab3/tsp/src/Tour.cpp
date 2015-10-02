@@ -33,7 +33,17 @@ Tour::Tour(Point a, Point b, Point c, Point d) {
 
 Tour::~Tour()
 {
+    if (front == nullptr) {
+        return;
+    }
+    Node* current = front->next;
 
+    while (current != front) {
+        Node* next = current->next;
+        delete current;
+        current = next;
+    }
+    delete front;
 }
 
 void Tour::show()
