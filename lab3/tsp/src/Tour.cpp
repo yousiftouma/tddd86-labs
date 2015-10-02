@@ -110,7 +110,34 @@ double Tour::distance()
 
 void Tour::insertNearest(Point p)
 {
-    // TODO: write this member
+    double dist = -1;
+    Node* nearest = nullptr;
+
+    if (front == nullptr) {
+        Node* node = new Node(p, nullptr);
+        node->next = node;
+        front = node;
+    }
+    else {
+        Node* current_slow = front;
+        Node* current_fast = front;
+
+        do {
+            double current_dist = p.distanceTo(current_slow->point);
+            if (dist == -1 || current_dist < dist) {
+                dist = current_dist;
+                nearest = current_slow;
+            }
+
+            current_slow = current_slow->next;
+            current_fast = current_fast->next->next;
+        }
+        while (current_fast != current_slow);
+
+        Node* new_node = new Node(p, nearest->next);
+        nearest->next = new_node;
+    }
+
 }
 
 void Tour::insertSmallest(Point p)
