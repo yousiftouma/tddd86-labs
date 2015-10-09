@@ -13,6 +13,9 @@ class Robot : public Unit {
 public:
     Robot();
     Robot(const Robot &c);
+
+    virtual bool isJunk() const;
+
     void draw(QGraphicsScene* scene) const;
 };
 

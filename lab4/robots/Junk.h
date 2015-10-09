@@ -18,6 +18,8 @@ public:
     bool attacks(const Unit& u) const override;
     void moveTowards(const Unit& u) override;
 
+    bool isJunk() const override;
+
     /*
     * Draws this junk onto the given QGraphicsScene.
     */

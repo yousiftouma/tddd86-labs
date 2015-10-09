@@ -12,6 +12,10 @@ Junk::Junk(Robot c) : Robot(c) {}
 bool Junk::attacks(const Unit& u) const {}
 void Junk::moveTowards(const Unit& u) {}
 
+bool Junk::isJunk() const {
+    return true;
+}
+
 void Junk::draw(QGraphicsScene *scene) const {
     Point corner = asPoint();
     scene->addEllipse(QRectF(corner.x * UNIT_WIDTH, corner.y * UNIT_HEIGHT,
