@@ -6,6 +6,7 @@
 #ifndef UNIT_H
 #define UNIT_H
 
+#include <QGraphicsScene>
 #include "utilities.h"
 
 /* Root class for all pieces on the board.
@@ -30,17 +31,22 @@ public:
     /*
     * Can I catch u in one move?
     */
-    bool attacks(const Unit& u) const;
+    virtual bool attacks(const Unit& u) const;
 
     /*
     * Take one step closer to u
     */
-    void moveTowards(const Unit& u);
+    virtual void moveTowards(const Unit& u);
 
     /*
     * Teleport. Does not check for collision
     */
     void teleport();
+
+    /*
+     * Draws unit in the GUI
+    */
+    virtual void draw(QGraphicsScene* scene) const;
 
     /*
     * Euclidean distance to u
