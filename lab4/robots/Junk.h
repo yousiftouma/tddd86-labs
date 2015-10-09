@@ -7,12 +7,16 @@
 #define JUNK_H
 
 #include "Unit.h"
+#include "Robot.h"
 #include <QGraphicsScene>
 
-class Junk : public Unit {
+class Junk : public Robot {
 public:
     Junk();
-    Junk(Unit c);
+    Junk(Robot c);
+
+    bool attacks(const Unit& u) const override;
+    void moveTowards(const Unit& u) override;
 
     /*
     * Draws this junk onto the given QGraphicsScene.

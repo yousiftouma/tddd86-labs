@@ -12,6 +12,7 @@
 class Robot : public Unit {
 public:
     Robot();
+    Robot(const Robot &c);
     void draw(QGraphicsScene* scene) const;
 };
 

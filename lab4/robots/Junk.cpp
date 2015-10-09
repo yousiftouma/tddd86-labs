@@ -6,8 +6,11 @@
 #include "Junk.h"
 #include "constants.h"
 
-Junk::Junk() : Unit() {}
-Junk::Junk(Unit c) : Unit(c) {}
+Junk::Junk() : Robot() {}
+Junk::Junk(Robot c) : Robot(c) {}
+
+bool Junk::attacks(const Unit& u) const {}
+void Junk::moveTowards(const Unit& u) {}
 
 void Junk::draw(QGraphicsScene *scene) const {
     Point corner = asPoint();

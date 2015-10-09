@@ -8,6 +8,8 @@
 
 Robot::Robot() : Unit() {}
 
+Robot::Robot(const Robot& c) : Unit(c) {}
+
 void Robot::draw(QGraphicsScene *scene) const {
     Point corner = asPoint();
     scene->addEllipse(QRectF(corner.x * UNIT_WIDTH, corner.y * UNIT_HEIGHT,
