@@ -14,7 +14,7 @@ Junk* Junk::clone() const {
 }
 
 bool Junk::attacks(const Unit& u) const {
-    return this->at(u); // "Attacks" if on same place
+    return false;
 }
 void Junk::moveTowards(const Unit& u) {}
 
