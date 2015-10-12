@@ -1,8 +1,5 @@
-// This is the .cpp file you will edit and turn in.
-// We have provided a skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header
+// Authors: vikho394, youto814
+// Tour class implementing heuristics for TSP
 
 #include <iostream>
 #include "Tour.h"
@@ -10,26 +7,7 @@
 #include "Point.h"
 #include <limits>
 
-Tour::Tour()
-{
-    // TODO: write this member
-}
-
-Tour::Tour(Point a, Point b, Point c, Point d) {
-
-    Node* node_a = new Node(a, nullptr);
-    front = node_a;
-    //node_a->next = front;
-
-    Node* node_b = new Node(b, nullptr);
-    node_a->next = node_b;
-
-    Node* node_c = new Node(c, nullptr);
-    node_b->next = node_c;
-
-    Node* node_d = new Node(d, front);
-    node_c->next = node_d;
-}
+Tour::Tour() {}
 
 Tour::~Tour()
 {
