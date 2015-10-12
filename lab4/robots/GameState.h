@@ -23,6 +23,21 @@ public:
     GameState(int numberOfRobots);
 
     /*
+     * Destructor, frees any allocated memory
+     */
+    ~GameState();
+
+    /*
+     * Copy constructor
+     */
+    GameState(const GameState &other);
+
+    /*
+     * Copy assignment operator
+     */
+    GameState& operator=(const GameState& other);
+
+    /*
      * Clear and redraw entire playing field
      */
     void draw(QGraphicsScene* scene) const;	// Clear and redraw entire playing field
@@ -75,6 +90,7 @@ private:
     Hero hero;                  // the hero
 
     // private helpers
+    void copyOther(const GameState &other);
     bool isEmpty(const Unit& unit) const;
     bool junkAt(const Unit& unit) const;
     int countRobotsAt(const Unit& unit) const;
