@@ -14,6 +14,8 @@ public:
     Robot();
     Robot(const Robot &c);
 
+    Robot* clone() const override;
+
     virtual bool isJunk() const;
 
     void draw(QGraphicsScene* scene) const;

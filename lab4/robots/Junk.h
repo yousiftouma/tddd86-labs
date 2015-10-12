@@ -15,6 +15,8 @@ public:
     Junk();
     Junk(Robot c);
 
+    Junk* clone() const;
+
     bool attacks(const Unit& u) const override;
     void moveTowards(const Unit& u) override;
 

@@ -19,6 +19,11 @@ public:
     Unit(const Point& p);
 
     /*
+     * Polymorph copy method
+     */
+    virtual Unit* clone() const;
+
+    /*
     * Return Point representation of Unit
     */
     Point asPoint() const;

@@ -10,6 +10,10 @@ Robot::Robot() : Unit() {}
 
 Robot::Robot(const Robot& c) : Unit(c) {}
 
+Robot* Robot::clone() const {
+    return new Robot(*this);
+}
+
 bool Robot::isJunk() const {
     return false; // Will be overriden in Junk
 }

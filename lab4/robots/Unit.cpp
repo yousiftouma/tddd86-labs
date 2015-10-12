@@ -23,6 +23,10 @@ Unit::Unit(const Point& p) {
     y = p.y;
 }
 
+Unit* Unit::clone() const {
+    return nullptr;
+}
+
 Point Unit::asPoint() const {
     return Point{x, y};
 }
