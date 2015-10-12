@@ -9,7 +9,9 @@
 Junk::Junk() : Robot() {}
 Junk::Junk(Robot c) : Robot(c) {}
 
-bool Junk::attacks(const Unit& u) const {}
+bool Junk::attacks(const Unit& u) const {
+    return this->at(u); // "Attacks" if on same place
+}
 void Junk::moveTowards(const Unit& u) {}
 
 bool Junk::isJunk() const {
