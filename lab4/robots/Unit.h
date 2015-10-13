@@ -16,7 +16,6 @@ class Unit {
 public:
     Unit();
     Unit(const Unit& u);
-    //Unit(const Point& p);
 
     /*
      * Polymorph copy method

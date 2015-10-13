@@ -15,7 +15,7 @@ public:
     Junk();
     Junk(Robot c);
 
-    Junk* clone() const;
+    Junk* clone() const override;
 
     bool attacks(const Unit& u) const override;
     void moveTowards(const Unit& u) override;
@@ -25,7 +25,7 @@ public:
     /*
     * Draws this junk onto the given QGraphicsScene.
     */
-    void draw(QGraphicsScene* scene) const;
+    void draw(QGraphicsScene* scene) const override;
 };
 
 #endif // JUNK_H

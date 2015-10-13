@@ -18,7 +18,7 @@ public:
 
     virtual bool isJunk() const;
 
-    void draw(QGraphicsScene* scene) const;
+    void draw(QGraphicsScene* scene) const override;
 };
 
 #endif // ROBOT_H

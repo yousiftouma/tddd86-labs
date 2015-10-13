@@ -8,6 +8,10 @@
 
 Hero::Hero() : Unit() {}
 
+Hero* Hero::clone() const {
+    return new Hero(*this);
+}
+
 void Hero::draw(QGraphicsScene *scene) const {
     Point corner = asPoint();
     scene->addRect(QRectF(corner.x * UNIT_WIDTH, corner.y * UNIT_HEIGHT,
