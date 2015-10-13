@@ -22,10 +22,14 @@ public:
      */
     Junk(Robot c);
 
+<<<<<<< HEAD
     /*
      * Polymorphic clone method
      */
     Junk* clone() const;
+=======
+    Junk* clone() const override;
+>>>>>>> d56bd182f644e082f4c4b9a458560c0755866f4e
 
     /*
      * Always false, junk can't move and thus not attack
@@ -45,7 +49,7 @@ public:
     /*
     * Draws this junk onto the given QGraphicsScene.
     */
-    void draw(QGraphicsScene* scene) const;
+    void draw(QGraphicsScene* scene) const override;
 };
 
 #endif // JUNK_H

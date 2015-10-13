@@ -16,7 +16,8 @@ class Unit {
 public:
     Unit();
     Unit(const Unit& u);
-    Unit(const Point& p);
+    
+    virtual ~Unit();
 
     /*
      * Polymorph copy method
@@ -34,16 +35,6 @@ public:
     bool at(const Unit& u) const;
 
     /*
-    * Can I catch u in one move?
-    */
-    virtual bool attacks(const Unit& u) const;
-
-    /*
-    * Take one step closer to u
-    */
-    virtual void moveTowards(const Unit& u);
-
-    /*
     * Teleport. Does not check for collision
     */
     void teleport();
@@ -51,13 +42,18 @@ public:
     /*
      * Draws unit in the GUI
     */
-    virtual void draw(QGraphicsScene* scene) const;
+    virtual void draw(QGraphicsScene* scene) const = 0;
 
     /*
     * Euclidean distance to u
     */
     double distanceTo(const Unit& u) const;
 private:
+    
+    // Allow Robot and Hero to acces coordinates
+    friend class Robot;
+    friend class Hero;
+    
     int x;  // x position of this unit
     int y;  // y position of this unit
 

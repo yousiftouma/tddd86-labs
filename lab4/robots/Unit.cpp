@@ -13,15 +13,18 @@ Unit::Unit() {
     teleport();
 }
 
+Unit::~Unit() {};
+
 Unit::Unit(const Unit& u) {
     x = u.x;
     y = u.y;
 }
 
+/*
 Unit::Unit(const Point& p) {
     x = p.x;
     y = p.y;
-}
+}*/
 
 Unit* Unit::clone() const {
     return nullptr;
@@ -34,21 +37,6 @@ Point Unit::asPoint() const {
 bool Unit::at(const Unit& u) const {
     return (x == u.x && y == u.y);
 }
-
-bool Unit::attacks(const Unit& u) const {
-    return (abs(x - u.x) <= 1 &&
-            abs(y - u.y) <= 1);
-}
-
-void Unit::moveTowards(const Unit& u) {
-    if (x > u.x) x--;
-    if (x < u.x) x++;
-    if (y > u.y) y--;
-    if (y < u.y) y++;
-    checkBounds();
-}
-
-void Unit::draw(QGraphicsScene *scene) const {}
 
 void Unit::teleport() {
     x = rand_int (MIN_X, MAX_X);

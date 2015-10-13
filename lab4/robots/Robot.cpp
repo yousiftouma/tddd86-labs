@@ -14,6 +14,19 @@ Robot* Robot::clone() const {
     return new Robot(*this);
 }
 
+bool Robot::attacks(const Unit& u) const {
+    return (abs(x - u.x) <= 1 &&
+            abs(y - u.y) <= 1);
+}
+
+void Robot::moveTowards(const Unit& u) {
+    if (x > u.x) x--;
+    if (x < u.x) x++;
+    if (y > u.y) y--;
+    if (y < u.y) y++;
+    checkBounds();
+}
+
 bool Robot::isJunk() const {
     return false; // Will be overriden in Junk
 }

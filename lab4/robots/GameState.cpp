@@ -102,7 +102,7 @@ bool GameState::isSafe(const Unit& unit) const {
     return true;
 }
 
-void GameState::moveHeroTowards(const Unit& dir) {
+void GameState::moveHeroTowards(const Point& dir) {
     hero.moveTowards(dir);
 }
 
