@@ -18,10 +18,11 @@ Unit::Unit(const Unit& u) {
     y = u.y;
 }
 
+/*
 Unit::Unit(const Point& p) {
     x = p.x;
     y = p.y;
-}
+}*/
 
 Unit* Unit::clone() const {
     return nullptr;
@@ -45,6 +46,14 @@ void Unit::moveTowards(const Unit& u) {
     if (x < u.x) x++;
     if (y > u.y) y--;
     if (y < u.y) y++;
+    checkBounds();
+}
+
+void Unit::moveTowards(const Point& pt) {
+    if (x > pt.x) x--;
+    if (x < pt.x) x++;
+    if (y > pt.y) y--;
+    if (y < pt.y) y++;
     checkBounds();
 }
 

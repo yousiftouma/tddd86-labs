@@ -16,7 +16,7 @@ class Unit {
 public:
     Unit();
     Unit(const Unit& u);
-    Unit(const Point& p);
+    //Unit(const Point& p);
 
     /*
      * Polymorph copy method
@@ -42,6 +42,7 @@ public:
     * Take one step closer to u
     */
     virtual void moveTowards(const Unit& u);
+    void moveTowards(const Point& pt);
 
     /*
     * Teleport. Does not check for collision
