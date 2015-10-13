@@ -39,7 +39,7 @@ public:
 
     /*
      * Returns true
-     * /
+     */
     bool isJunk() const override;
 
     /*
