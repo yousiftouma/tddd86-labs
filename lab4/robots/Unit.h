@@ -51,7 +51,7 @@ public:
     /*
      * Draws unit in the GUI
     */
-    virtual void draw(QGraphicsScene* scene) const;
+    virtual void draw(QGraphicsScene* scene) const = 0;
 
     /*
     * Euclidean distance to u
