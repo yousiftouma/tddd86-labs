@@ -12,14 +12,34 @@
 
 class Junk : public Robot {
 public:
+    /*
+     * Default constructor
+     */
     Junk();
+
+    /*
+     * Turns robot into junk
+     */
     Junk(Robot c);
 
+    /*
+     * Polymorphic clone method
+     */
     Junk* clone() const;
 
+    /*
+     * Always false, junk can't move and thus not attack
+     */
     bool attacks(const Unit& u) const override;
+
+    /*
+     * Empty method, junk can't move
+     */
     void moveTowards(const Unit& u) override;
 
+    /*
+     * Returns true
+     * /
     bool isJunk() const override;
 
     /*
