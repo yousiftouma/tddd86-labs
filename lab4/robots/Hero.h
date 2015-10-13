@@ -13,8 +13,14 @@ class Hero : public Unit {
 public:
     Hero();
     
+    /*
+     * Polymorphic copy method
+     */
     Hero* clone() const override;
     
+    /*
+     * Moves the hero towards the given point
+     */
     void moveTowards(const Point& pt);
 
     /*
