@@ -22,14 +22,10 @@ public:
      */
     Junk(Robot c);
 
-<<<<<<< HEAD
     /*
      * Polymorphic clone method
      */
-    Junk* clone() const;
-=======
     Junk* clone() const override;
->>>>>>> d56bd182f644e082f4c4b9a458560c0755866f4e
 
     /*
      * Always false, junk can't move and thus not attack
