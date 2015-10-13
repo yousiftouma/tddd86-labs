@@ -15,6 +15,16 @@ public:
     Robot(const Robot &c);
 
     Robot* clone() const override;
+    
+    /*
+     * Can I catch u in one move?
+     */
+    virtual bool attacks(const Unit& u) const;
+    
+    /*
+     * Take one step closer to u
+     */
+    virtual void moveTowards(const Unit& u);
 
     virtual bool isJunk() const;
 

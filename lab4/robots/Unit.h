@@ -16,6 +16,8 @@ class Unit {
 public:
     Unit();
     Unit(const Unit& u);
+    
+    virtual ~Unit();
 
     /*
      * Polymorph copy method
@@ -33,17 +35,6 @@ public:
     bool at(const Unit& u) const;
 
     /*
-    * Can I catch u in one move?
-    */
-    virtual bool attacks(const Unit& u) const;
-
-    /*
-    * Take one step closer to u
-    */
-    virtual void moveTowards(const Unit& u);
-    void moveTowards(const Point& pt);
-
-    /*
     * Teleport. Does not check for collision
     */
     void teleport();
@@ -58,6 +49,11 @@ public:
     */
     double distanceTo(const Unit& u) const;
 private:
+    
+    // Allow Robot and Hero to acces coordinates
+    friend class Robot;
+    friend class Hero;
+    
     int x;  // x position of this unit
     int y;  // y position of this unit
 

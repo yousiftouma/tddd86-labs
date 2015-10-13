@@ -14,6 +14,8 @@ public:
     Hero();
     
     Hero* clone() const override;
+    
+    void moveTowards(const Point& pt);
 
     /*
     * Draws this hero onto the given QGraphicsScene.

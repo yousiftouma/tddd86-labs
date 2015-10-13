@@ -13,6 +13,8 @@ Unit::Unit() {
     teleport();
 }
 
+Unit::~Unit() {};
+
 Unit::Unit(const Unit& u) {
     x = u.x;
     y = u.y;
@@ -34,27 +36,6 @@ Point Unit::asPoint() const {
 
 bool Unit::at(const Unit& u) const {
     return (x == u.x && y == u.y);
-}
-
-bool Unit::attacks(const Unit& u) const {
-    return (abs(x - u.x) <= 1 &&
-            abs(y - u.y) <= 1);
-}
-
-void Unit::moveTowards(const Unit& u) {
-    if (x > u.x) x--;
-    if (x < u.x) x++;
-    if (y > u.y) y--;
-    if (y < u.y) y++;
-    checkBounds();
-}
-
-void Unit::moveTowards(const Point& pt) {
-    if (x > pt.x) x--;
-    if (x < pt.x) x++;
-    if (y > pt.y) y--;
-    if (y < pt.y) y++;
-    checkBounds();
 }
 
 void Unit::teleport() {
