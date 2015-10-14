@@ -13,18 +13,12 @@ Unit::Unit() {
     teleport();
 }
 
-Unit::~Unit() {};
+Unit::~Unit() {}
 
 Unit::Unit(const Unit& u) {
     x = u.x;
     y = u.y;
 }
-
-/*
-Unit::Unit(const Point& p) {
-    x = p.x;
-    y = p.y;
-}*/
 
 Unit* Unit::clone() const {
     return nullptr;
@@ -34,14 +28,12 @@ Point Unit::asPoint() const {
     return Point{x, y};
 }
 
-bool Unit::at(const Unit& u) const {
-    return (x == u.x && y == u.y);
-}
-
 void Unit::teleport() {
     x = rand_int (MIN_X, MAX_X);
     y = rand_int (MIN_Y, MAX_Y);
 }
+
+
 
 double Unit::distanceTo(const Unit& u) const {
     double dx = u.x - x;

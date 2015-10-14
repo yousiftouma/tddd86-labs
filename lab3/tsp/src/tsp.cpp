@@ -40,18 +40,23 @@ int main(int argc, char *argv[]) {
 
     // run insertion heuristic
     Tour tour;
+    unordered_set<Point*> points;
     double x;
     double y;
+    Point* pp;
     while (input >> x >> y) {
-        Point p(x, y);
+        pp = new Point(x, y);
+        points.insert(pp);
+        delete pp;
         //tour.insertNearest(p);
-        tour.insertSmallest(p);
+        //tour.insertSmallest(p);
         //uncomment the 4 lines below to animate
         tour.draw(scene);
         std::chrono::milliseconds dura(50);
         std::this_thread::sleep_for(dura);
         a.processEvents();
     }
+    tour.insertFarthest(points);
     input.close();
 
     // print tour to standard output

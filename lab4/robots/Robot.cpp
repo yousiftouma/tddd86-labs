@@ -27,6 +27,10 @@ void Robot::moveTowards(const Unit& u) {
     checkBounds();
 }
 
+bool Robot::at(const Unit& u) const {
+    return (x == u.x && y == u.y);
+}
+
 bool Robot::isJunk() const {
     return false; // Will be overriden in Junk
 }

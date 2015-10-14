@@ -9,6 +9,7 @@
 #define NODE_H
 
 #include <iostream>
+#include <unordered_set>
 #include "Point.h"
 using namespace std;
 

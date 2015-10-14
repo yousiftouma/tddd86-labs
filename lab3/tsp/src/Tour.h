@@ -53,6 +53,12 @@ public:
      */
     void insertSmallest(Point p);
 
+    /*
+     * Inserts points in an optimal order according to farthest insertion
+     * heuristic.
+     */
+    void insertFarthest(unordered_set<Point*> points);
+
 private:
     Node* front = nullptr;
 };

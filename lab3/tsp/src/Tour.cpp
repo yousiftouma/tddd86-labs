@@ -157,3 +157,39 @@ void Tour::insertSmallest(Point p)
         best_node->next = new_node;
     }
 }
+
+void Tour::insertFarthest(unordered_set<Point*> points) {
+    pair<Point*, Point*> farthest;
+    double maxDist = -1;
+    double curr_dist;
+
+    for (auto it1 = points.begin(); it1 != points.end(); ++it1) {
+        for (auto it2 = it1; it2 != points.end(); ++it2){
+            curr_dist = (*it1)->distanceTo(*(*it2));
+            if (curr_dist >= maxDist){
+                farthest = make_pair(*it1, *it2);
+                maxDist = curr_dist;
+            }
+        }
+    }
+    points.erase(farthest.first());
+    points.erase(farthest.second());
+    delete farthest.first();
+    delete farthest.second();
+    insertSmallest(*farthest.first());
+    insertSmallest(*farthest.second());
+
+    double minDist;
+    maxDist = -1;
+    Point* pointToInsert;
+
+    while (!points.empty()) {
+        minDist = numeric_limits<double>::infinity();
+        // måste loopa länkade listan och uppdatera minDist till minsta avståndet
+        // sätt maxDist till minDist om minDist större än nuvarande maxDist
+        // inserta den pointen motsvarande maxDist
+    }
+
+
+
+}

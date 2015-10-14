@@ -29,15 +29,12 @@ public:
     */
     Point asPoint() const;
 
-    /*
-    * Am I in the same square as u?
-    */
-    bool at(const Unit& u) const;
 
     /*
     * Teleport. Does not check for collision
     */
     void teleport();
+
 
     /*
      * Draws unit in the GUI
