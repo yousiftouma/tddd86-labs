@@ -186,21 +186,6 @@ void Tour::insertFarthest(unordered_set<Point*> points) {
 
     pair<Point*, Point*> farthestPoints = getFarthestPoints(points);
 
-    pair<Point*, Point*> farthestPoints;
-    double maxDist = -1;
-    double currentDist;
-
-    for (auto it1 = points.begin(); it1 != points.end(); ++it1) {
-        for (auto it2 = it1; it2 != points.end(); ++it2){
-
-            currentDist = (*it1)->distanceTo(*(*it2));
-            if (currentDist >= maxDist){
-                farthestPoints = make_pair(*it1, *it2);
-                maxDist = currentDist;
-            }
-        }
-    }
-
     // Remove points from set and insert them using insertsmallest
     insertSmallest(*farthestPoints.first);
     insertSmallest(*farthestPoints.second);
