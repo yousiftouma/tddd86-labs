@@ -47,9 +47,8 @@ public:
     double distanceTo(const Unit& u) const;
 private:
     
-    // Allow Robot and Hero to acces coordinates
+    // Allow Robot to acces coordinates
     friend class Robot;
-    friend class Hero;
     
     int x;  // x position of this unit
     int y;  // y position of this unit
