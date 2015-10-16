@@ -172,19 +172,45 @@ void Tour::insertFarthest(unordered_set<Point*> points) {
             }
         }
     }
-    points.erase(farthest.first());
-    points.erase(farthest.second());
-    delete farthest.first();
-    delete farthest.second();
-    insertSmallest(*farthest.first());
-    insertSmallest(*farthest.second());
-
-    double minDist;
-    maxDist = -1;
-    Point* pointToInsert;
+    points.erase(farthest.first);
+    points.erase(farthest.second);
+    delete farthest.first;
+    delete farthest.second;
+    insertSmallest(*farthest.first);
+    insertSmallest(*farthest.second);
 
     while (!points.empty()) {
-        minDist = numeric_limits<double>::infinity();
+
+        maxDist = -1;
+        Point* pointToInsert;
+
+        for (auto point : points) {
+            double minDist = numeric_limits<double>::infinity();
+
+            Node* current = front;
+
+            do {
+                double dist = point->distanceTo(current->point);
+
+                if (dist < minDist) {
+                    minDist = dist;
+                }
+
+                current = current->next;
+            }
+            while (current != front);
+
+            // New furthest point found, update
+            if (minDist > maxDist) {
+                maxDist = minDist;
+                pointToInsert = point;
+            }
+
+        }
+        insertSmallest(*pointToInsert);
+        points.erase(pointToInsert);
+
+
         // måste loopa länkade listan och uppdatera minDist till minsta avståndet
         // sätt maxDist till minDist om minDist större än nuvarande maxDist
         // inserta den pointen motsvarande maxDist

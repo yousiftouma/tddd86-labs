@@ -47,11 +47,10 @@ int main(int argc, char *argv[]) {
     while (input >> x >> y) {
         pp = new Point(x, y);
         points.insert(pp);
-        delete pp;
         //tour.insertNearest(p);
         //tour.insertSmallest(p);
         //uncomment the 4 lines below to animate
-        tour.draw(scene);
+        //tour.draw(scene);
         std::chrono::milliseconds dura(50);
         std::this_thread::sleep_for(dura);
         a.processEvents();
