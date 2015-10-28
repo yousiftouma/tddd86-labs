@@ -17,8 +17,8 @@ using namespace std;
  * Each Point structure represents a single point in the Euclidean plane.
  */
 struct Point {
-    const double x; // x position of point
-    const double y; // y position of point
+    double x; // x position of point
+    double y; // y position of point
 
     Point(double _x, double _y);
 

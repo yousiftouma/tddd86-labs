@@ -67,7 +67,7 @@ public:
 private:
     Node* front = nullptr;
 
-    Node* opt2Swap(Node* i, Node* k);
+    void opt2Swap(Node* i, Node* k);
 };
 
 #endif // TOUR_H

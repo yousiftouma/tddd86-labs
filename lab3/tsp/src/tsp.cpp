@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
 
     QApplication a(argc, argv);
 
-    string filename = "tsp10.txt";
+    string filename = "tsp1000.txt";
     //filename = "bier127.txt";
     ifstream input;
     input.open(filename);
@@ -44,27 +44,35 @@ int main(int argc, char *argv[]) {
     double x;
     double y;
     Point* pp;
+
+    std::clock_t start;
+    start = std::clock();
     while (input >> x >> y) {
-        pp = new Point(x, y);
-        points.insert(pp);
+        //pp = new Point(x, y);
+        //points.insert(pp);
+        Point p{x,y};
         //tour.insertNearest(p);
-        //tour.insertSmallest(p);
+        tour.insertSmallest(p);
         //uncomment the 4 lines below to animate
         //tour.draw(scene);
-        std::chrono::milliseconds dura(50);
-        std::this_thread::sleep_for(dura);
+        //std::chrono::milliseconds dura(50);
+        //std::this_thread::sleep_for(dura);
         a.processEvents();
     }
-    tour.insertFarthest(points);
+    //tour.insertFarthest(points);
     input.close();
 
     // print tour to standard output
     cout << "Tour distance: " << std::fixed << std::setprecision(4)
          << std::showpoint << tour.distance() << endl;
-    cout << "Number of points: " << tour.size() << endl;
-    tour.show();
+    //cout << "Number of points: " << tour.size() << endl;
+    //tour.show();
 
     // draw tour
+    tour.opt2();
+    cout << "Tour distance: " << std::fixed << std::setprecision(4)
+         << std::showpoint << tour.distance() << endl;
     tour.draw(scene);
+    std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
     return a.exec(); // start Qt event loop
 }

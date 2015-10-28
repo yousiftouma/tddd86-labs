@@ -6,6 +6,7 @@
 #include "Node.h"
 #include "Point.h"
 #include <limits>
+#include <stack>
 
 Tour::Tour() {}
 
@@ -227,13 +228,60 @@ void Tour::insertFarthest(unordered_set<Point*> points) {
     }
 }
 
-Node* opt2Swap(Node* i, Node* k) {
-    return nullptr;
+void Tour::opt2Swap(Node* i, Node* k) {
+    stack<Point> points;
+
+    Node* current = i;
+    do {
+        points.push(current->point);
+        current = current->next;
+
+    } while(current != k->next);
+
+
+    current = i;
+    do {
+        current->point = points.top();
+        points.pop();
+        current = current->next;
+
+    } while(current != k->next);
 }
 
 
-void opt2() {
+void Tour::opt2() {
+    bool startOver = true;
+    while (startOver) {
+        startOver = false;
 
+        double bestDistance = distance();
+
+        Node* outerCurrent = front;
+
+        do {
+
+            Node* innerCurrent = outerCurrent->next;
+
+            do {
+                opt2Swap(outerCurrent, innerCurrent);
+
+                if (distance() >= bestDistance) {
+                    //cout << "Swap was worse!" << endl;
+                    startOver = false;
+                    opt2Swap(outerCurrent, innerCurrent); // Restore order
+                }
+                else {
+                    startOver = true;
+                    //cout << "Did a swap, yay!" << endl;
+                }
+
+                innerCurrent = innerCurrent->next;
+            } while(!startOver && innerCurrent != front);
+
+
+            outerCurrent = outerCurrent->next;
+        } while(!startOver && outerCurrent->next != front);
+    }
 }
 
 
