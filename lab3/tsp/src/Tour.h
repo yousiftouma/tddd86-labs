@@ -59,8 +59,15 @@ public:
      */
     void insertFarthest(unordered_set<Point*> points);
 
+    /*
+     * Solves any intersections in the current tour by using the 2opt algorithm
+     */
+    void opt2();
+
 private:
     Node* front = nullptr;
+
+    Node* opt2Swap(Node* i, Node* k);
 };
 
 #endif // TOUR_H

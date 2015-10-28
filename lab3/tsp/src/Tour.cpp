@@ -226,3 +226,17 @@ void Tour::insertFarthest(unordered_set<Point*> points) {
         points.erase(pointToInsert);
     }
 }
+
+Node* opt2Swap(Node* i, Node* k) {
+    return nullptr;
+}
+
+
+void opt2() {
+
+}
+
+
+
+
+
