@@ -51,8 +51,8 @@ int main(int argc, char *argv[]) {
         //pp = new Point(x, y);
         //points.insert(pp);
         Point p{x,y};
-        //tour.insertNearest(p);
-        tour.insertSmallest(p);
+        tour.insertNearest(p);
+        //tour.insertSmallest(p);
         //uncomment the 4 lines below to animate
         //tour.draw(scene);
         //std::chrono::milliseconds dura(50);

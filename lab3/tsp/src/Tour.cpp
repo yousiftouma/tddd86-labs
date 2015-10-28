@@ -248,38 +248,52 @@ void Tour::opt2Swap(Node* i, Node* k) {
     } while(current != k->next);
 }
 
+double distanceIntervall(Node* start, Node* end) {
+    double dist = 0;
+
+    Node* current = start;
+    do {
+        dist += current->point.distanceTo(current->next->point);
+        current = current->next;
+    } while(current != end);
+    return dist;
+}
 
 void Tour::opt2() {
     bool startOver = true;
     while (startOver) {
         startOver = false;
 
-        double bestDistance = distance();
+        //double bestDistance = distance();
 
-        Node* outerCurrent = front;
+        Node* outerCurrent = front->next;
+        Node* outerPrev = front;
 
         do {
-
             Node* innerCurrent = outerCurrent->next;
 
             do {
-                opt2Swap(outerCurrent, innerCurrent);
+                bool change = outerPrev->point.distanceTo(innerCurrent->point) +
+                        outerCurrent->point.distanceTo(innerCurrent->next->point) <
+                        outerPrev->point.distanceTo(outerCurrent->point) +
+                        innerCurrent->point.distanceTo(innerCurrent->next->point);
 
-                if (distance() >= bestDistance) {
-                    //cout << "Swap was worse!" << endl;
-                    startOver = false;
+                if (change) {
+                    cout << "Did a swap!" << endl;
+                    startOver = true;
                     opt2Swap(outerCurrent, innerCurrent); // Restore order
                 }
                 else {
-                    startOver = true;
-                    //cout << "Did a swap, yay!" << endl;
+                    startOver = false;
                 }
 
                 innerCurrent = innerCurrent->next;
+
             } while(!startOver && innerCurrent != front);
 
 
             outerCurrent = outerCurrent->next;
+            outerPrev = outerPrev->next;
         } while(!startOver && outerCurrent->next != front);
     }
 }
