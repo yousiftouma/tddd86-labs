@@ -24,6 +24,16 @@ public:
 private:
     // TODO: decide the private member variables/functions and declare them
 
+
+    struct Cube {
+        vector<char> characters;
+
+        // Returns the upturned character
+        char getUp() {
+            return characters[0];
+        }
+    };
+
 };
 
 #endif
