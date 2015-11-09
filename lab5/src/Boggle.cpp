@@ -27,8 +27,13 @@ Boggle::Boggle() {
         for (int j = 0; j < CUBE_SIDES; j++) {
             cube.characters.push_back(CUBES[i][j]);
         }
+
+        shuffle(cube.characters); // Shuffle characters
         gameBoard.set(i/4, i%4, cube);
     }
+
+    // Shuffle board
+    shuffle(gameBoard);
 
 }
 
