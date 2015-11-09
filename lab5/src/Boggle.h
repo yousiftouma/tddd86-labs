@@ -23,8 +23,8 @@ public:
     // Basic constructor
     Boggle();
 
-    // Force game board constructor
-    Boggle(string board);
+    // Force game board
+    void setBoard(string board);
 
     // Returns a string representation of the current board
     string getBoardStr();

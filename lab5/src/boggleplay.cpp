@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <string>
 #include "Boggle.h"
 #include "bogglemain.h"
 #include "strlib.h"
@@ -16,6 +17,22 @@
  */
 void playOneGame(Boggle& boggle) {
     // TODO: implement this function (and add any other functions you like to help you)
+
+    cout << "Do you want to generate a random board? (y/n)";
+    string ans;
+    cin >> ans;
+    cin.ignore(); // Flush
+
+    if (ans == "n") {
+        string board = "";
+
+        while (board.size() != 16) {
+            cout << "Please enter a board string (16 characters)" << endl;
+            getline(cin, board);
+        }
+        boggle.setBoard(board);
+    }
+
     cout << boggle.getBoardStr() << endl;
 }
 

@@ -37,7 +37,14 @@ Boggle::Boggle() {
 
 }
 
-Boggle::Boggle(string board) {
+void Boggle::setBoard(string board) {
+
+    for (int i = 0; i < NUM_CUBES; i++) {
+        Cube cube;
+
+        cube.characters.push_back(board[i]);
+        gameBoard.set(i/4, i%4, cube);
+    }
 
 }
 
