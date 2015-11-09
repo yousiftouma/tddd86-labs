@@ -19,4 +19,30 @@ static string CUBES[NUM_CUBES] = {        // the letters on all 6 sides of every
    "EIOSST", "ELRTTY", "HIMNQU", "HLNNRZ"
 };
 
-// TODO: implement the members you declared in Boggle.h
+Boggle::Boggle() {
+
+    for (int i = 0; i < NUM_CUBES; i++) {
+        Cube cube;
+
+        for (int j = 0; j < CUBE_SIDES; j++) {
+            cube.characters.push_back(CUBES[i][j]);
+        }
+        gameBoard.set(i/4, i%4, cube);
+    }
+
+}
+
+Boggle::Boggle(string board) {
+
+}
+
+string Boggle::getBoardStr() {
+    string res = "";
+    for (int i = 0; i < gameBoard.nRows; i++) {
+        for (int j = 0; j < gameBoard.nCols; j++) {
+            res += gameBoard.get(i,j).getUp();
+        }
+        res += "\n";
+    }
+    return res;
+}
