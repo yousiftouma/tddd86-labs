@@ -108,7 +108,7 @@ void Boggle::addWord(string word) {
     playerScore += word.size() - 3; // 1 point per char over 3
 }
 
-int Boggle::numPlayerWords() {
+int Boggle::numPlayerWords() const {
     return playerWords.size();
 }
 
@@ -116,15 +116,15 @@ string Boggle::getPlayerWords() {
     return playerWords.toString();
 }
 
-int Boggle::getPlayerScore() {
+int Boggle::getPlayerScore() const {
     return playerScore;
 }
 
-int Boggle::numComputerWords() {
+int Boggle::numComputerWords() const {
     return computerWords.size();
 }
 
-int Boggle::getComputerScore() {
+int Boggle::getComputerScore() const {
     return computerScore;
 }
 
@@ -132,7 +132,7 @@ string Boggle::getComputerWords() {
     return computerWords.toString();
 }
 
-bool Boggle::isValidComputerWord(string word) {
+bool Boggle::isValidComputerWord(string word) const {
     return word.size() >= 4 && lexicon.contains(word)
             && !computerWords.contains(word) && !playerWords.contains(word);
 }
@@ -172,7 +172,7 @@ void Boggle::recFindWords(string currentWord = "", int row = 0, int col = 0) {
     gameBoard.set(row, col, cube);
 }
 
-string Boggle::getBoardStr() {
+string Boggle::getBoardStr() const {
     string res = "";
     for (int i = 0; i < gameBoard.nRows; i++) {
         for (int j = 0; j < gameBoard.nCols; j++) {

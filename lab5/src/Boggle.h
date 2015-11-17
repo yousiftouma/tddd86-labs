@@ -35,9 +35,9 @@ public:
     // Adds the correct word to the player
     void addWord(string word);
 
-    int numPlayerWords();
+    int numPlayerWords() const;
 
-    int getPlayerScore();
+    int getPlayerScore() const;
 
     string getPlayerWords();
 
@@ -47,25 +47,25 @@ public:
     bool existsOnBoard(string word);
 
 
-    int numComputerWords();
+    int numComputerWords() const;
 
-    int getComputerScore();
+    int getComputerScore() const;
 
     string getComputerWords();
 
-    bool isValidComputerWord(string word);
+    bool isValidComputerWord(string word) const;
 
     void findAllWords();
 
     // Returns a string representation of the current board
-    string getBoardStr();
+    string getBoardStr() const;
 
 private:
 
     bool recSearchWord(string word, int row, int col);
     void recFindWords(string currentWord, int row, int col);
 
-    Lexicon lexicon = Lexicon(DICTIONARY_FILE);
+    const Lexicon lexicon = Lexicon(DICTIONARY_FILE);
 
     Set<string> playerWords;
     Set<string> computerWords;
@@ -78,7 +78,7 @@ private:
         bool isMarked = false;
 
         // Returns the upturned character
-        char getUp() {
+        char getUp() const{
             return characters[0];
         }
     };
