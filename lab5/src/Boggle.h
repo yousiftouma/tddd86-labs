@@ -27,7 +27,7 @@ public:
     Boggle();
 
     // Generates a random game board
-    void generateRandomBoard();
+    void resetBoard();
 
     // Force game board
     void setBoard(string board);

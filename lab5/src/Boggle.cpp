@@ -21,10 +21,10 @@ static string CUBES[NUM_CUBES] = {        // the letters on all 6 sides of every
 };
 
 Boggle::Boggle() {
-    this->generateRandomBoard();
+    this->resetBoard();
 }
 
-void Boggle::generateRandomBoard() {
+void Boggle::resetBoard() {
 
     for (int i = 0; i < NUM_CUBES; i++) {
         Cube cube;
@@ -39,6 +39,13 @@ void Boggle::generateRandomBoard() {
 
     // Shuffle board
     shuffle(gameBoard);
+
+    // Reset scores
+    playerScore = 0;
+    computerScore = 0;
+
+    playerWords.clear();
+    computerWords.clear();
 }
 
 void Boggle::setBoard(string board) {
