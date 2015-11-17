@@ -54,7 +54,45 @@ void Boggle::setBoard(string board) {
 }
 
 bool Boggle::isValidWord(string word) {
-    return word.size() >= 4 && !takenWords.contains(word) && lexicon.contains(word);
+    return word.size() >= 4 && !takenWords.contains(word) && lexicon.contains(word) && this->existsOnBoard(word);
+}
+
+bool Boggle::existsOnBoard(string word) {
+
+    bool res = false;
+    for (int row = 0; row < gameBoard.nRows; row++) {
+        for (int col = 0; col < gameBoard.nCols; col++) {
+            res = res || recSearchWord(word, row, col);
+        }
+    }
+    return res;
+}
+
+bool Boggle::recSearchWord(string word, int row, int col) {
+    if (word.empty()) {
+        return true;
+    }
+    else if (word[0] != gameBoard.get(row, col).getUp()) {
+        return false;
+    }
+    bool res = false;
+    Cube cube = gameBoard.get(row, col);
+    cube.isMarked = true;
+    gameBoard.set(row, col, cube);
+
+    vector<int> neighbours = {-1, 0, 1};
+    for (int dy : neighbours) {
+        for (int dx : neighbours) {
+            if ((dx != 0 || dy !=0) && gameBoard.inBounds(row + dy, col + dx)
+                    && !gameBoard.get(row + dy, col + dx).isMarked) {
+
+                res = res || recSearchWord(word.substr(1), row + dy, col + dx);
+            }
+        }
+    }
+    cube.isMarked = false;
+    gameBoard.set(row, col, cube);
+    return res;
 }
 
 void Boggle::addWord(string word) {

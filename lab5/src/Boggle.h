@@ -35,8 +35,6 @@ public:
     // Adds the correct word to the player
     void addWord(string word);
 
-    string toUpper(string str);
-
     int numWordsGuessed();
 
     int getPlayerScore();
@@ -48,10 +46,14 @@ public:
     // Returns whether the word is valid
     bool isValidWord(string word);
 
+    bool existsOnBoard(string word);
+
     // Returns a string representation of the current board
     string getBoardStr();
 
 private:
+
+    bool recSearchWord(string word, int row, int col);
 
     Lexicon lexicon = Lexicon(DICTIONARY_FILE);
 
@@ -61,6 +63,7 @@ private:
 
     struct Cube {
         vector<char> characters;
+        bool isMarked = false;
 
         // Returns the upturned character
         char getUp() {

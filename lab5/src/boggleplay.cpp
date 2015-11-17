@@ -46,14 +46,17 @@ void playOneGame(Boggle& boggle) {
     cout << "Type a word (or press Enter to end your turn): " << endl;
 
     while(getline(cin, line)) {
+        //TODO: clearConsole();
+        line = toUpperCase(line);
         if (boggle.isValidWord(line)) {
-            line = toUpperCase(line);
             boggle.addWord(line);
             cout << "You found a new word! \"" << line << "\"" << endl;
         }
 
         cout << "Your words (" << boggle.numWordsGuessed() << "): " << boggle.getPlayerWords() << endl;
         cout << "Your score: " << boggle.getPlayerScore() << endl;
+
+        cout << boggle.getBoardStr() << endl;
         cout << "Type a word (or press Enter to end your turn): " << endl;
     }
 }
