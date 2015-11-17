@@ -36,7 +36,26 @@ void playOneGame(Boggle& boggle) {
         boggle.generateRandomBoard();
     }
 
+
+    cout << "It's your turn!" << endl;
+
     cout << boggle.getBoardStr() << endl;
+
+    // Player loop
+    string line;
+    cout << "Type a word (or press Enter to end your turn): " << endl;
+
+    while(getline(cin, line)) {
+        if (boggle.isValidWord(line)) {
+            line = toUpperCase(line);
+            boggle.addWord(line);
+            cout << "You found a new word! \"" << line << "\"" << endl;
+        }
+
+        cout << "Your words (" << boggle.numWordsGuessed() << "): " << boggle.getPlayerWords() << endl;
+        cout << "Your score: " << boggle.getPlayerScore() << endl;
+        cout << "Type a word (or press Enter to end your turn): " << endl;
+    }
 }
 
 /*

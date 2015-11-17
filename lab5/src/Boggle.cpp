@@ -5,6 +5,7 @@
 // TODO: remove this comment header and replace it with your own
 
 #include <sstream>
+#include <algorithm>
 #include "Boggle.h"
 #include "random.h"
 #include "shuffle.h"
@@ -42,13 +43,35 @@ void Boggle::generateRandomBoard() {
 
 void Boggle::setBoard(string board) {
 
+    board = toUpperCase(board);
+
     for (int i = 0; i < NUM_CUBES; i++) {
         Cube cube;
 
         cube.characters.push_back(board[i]);
         gameBoard.set(i/4, i%4, cube);
     }
+}
 
+bool Boggle::isValidWord(string word) {
+    return word.size() >= 4 && !takenWords.contains(word) && lexicon.contains(word);
+}
+
+void Boggle::addWord(string word) {
+    takenWords.add(word);
+    playerScore += word.size() - 3; // 1 point per char over 3
+}
+
+int Boggle::numWordsGuessed() {
+    return takenWords.size();
+}
+
+string Boggle::getPlayerWords() {
+    return takenWords.toString();
+}
+
+int Boggle::getPlayerScore() {
+    return playerScore;
 }
 
 string Boggle::getBoardStr() {

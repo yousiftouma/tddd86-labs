@@ -10,6 +10,9 @@
 #include <iostream>
 #include <string>
 #include <grid.h>
+#include <set>
+#include "lexicon.h"
+
 // TODO: include any other header files you need
 
 using namespace std;
@@ -29,10 +32,32 @@ public:
     // Force game board
     void setBoard(string board);
 
+    // Adds the correct word to the player
+    void addWord(string word);
+
+    string toUpper(string str);
+
+    int numWordsGuessed();
+
+    int getPlayerScore();
+
+    string getPlayerWords();
+
+
+
+    // Returns whether the word is valid
+    bool isValidWord(string word);
+
     // Returns a string representation of the current board
     string getBoardStr();
 
 private:
+
+    Lexicon lexicon = Lexicon(DICTIONARY_FILE);
+
+    Set<string> takenWords;
+
+    int playerScore = 0;
 
     struct Cube {
         vector<char> characters;
