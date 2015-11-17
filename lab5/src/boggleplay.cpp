@@ -18,12 +18,10 @@
 void playOneGame(Boggle& boggle) {
     // TODO: implement this function (and add any other functions you like to help you)
 
-    cout << "Do you want to generate a random board? (y/n)";
-    string ans;
-    cin >> ans;
-    cin.ignore(); // Flush
-
-    if (ans == "n") {
+    if (yesOrNo("Do you want to generate a random board (Y/N)?")) {
+        boggle.generateRandomBoard();
+    }
+    else {
         string board = "";
 
         while (board.size() != 16) {
@@ -32,10 +30,6 @@ void playOneGame(Boggle& boggle) {
         }
         boggle.setBoard(board);
     }
-    else {
-        boggle.generateRandomBoard();
-    }
-
 
     cout << "It's your turn!" << endl;
 
@@ -46,18 +40,38 @@ void playOneGame(Boggle& boggle) {
     cout << "Type a word (or press Enter to end your turn): " << endl;
 
     while(getline(cin, line)) {
+
+        if (line.empty()) {
+            break;
+        }
+
         //TODO: clearConsole();
         line = toUpperCase(line);
-        if (boggle.isValidWord(line)) {
+        if (boggle.isValidPlayerWord(line)) {
+
             boggle.addWord(line);
             cout << "You found a new word! \"" << line << "\"" << endl;
         }
 
-        cout << "Your words (" << boggle.numWordsGuessed() << "): " << boggle.getPlayerWords() << endl;
+        cout << "Your words (" << boggle.numPlayerWords() << "): " << boggle.getPlayerWords() << endl;
         cout << "Your score: " << boggle.getPlayerScore() << endl;
 
         cout << boggle.getBoardStr() << endl;
         cout << "Type a word (or press Enter to end your turn): " << endl;
+    }
+
+    // Computer
+    cout << "It's my turn!" << endl;
+    boggle.findAllWords();
+    cout << "My words (" << boggle.numComputerWords() << "): " << boggle.getComputerWords() << endl;
+    cout << "My score: " << boggle.getComputerScore() << endl;
+
+    // Game finish
+    if (boggle.getPlayerScore() >= boggle.getComputerScore()) {
+        cout << "Good job! You won" << endl;
+    }
+    else {
+        cout << "Ha ha ha, I destroyed you. Better luck next time, puny human!" << endl;
     }
 }
 

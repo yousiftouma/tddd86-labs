@@ -53,8 +53,9 @@ void Boggle::setBoard(string board) {
     }
 }
 
-bool Boggle::isValidWord(string word) {
-    return word.size() >= 4 && !takenWords.contains(word) && lexicon.contains(word) && this->existsOnBoard(word);
+bool Boggle::isValidPlayerWord(string word) {
+    return word.size() >= 4 && !playerWords.contains(word) && lexicon.contains(word) &&
+            this->existsOnBoard(word);
 }
 
 bool Boggle::existsOnBoard(string word) {
@@ -96,20 +97,72 @@ bool Boggle::recSearchWord(string word, int row, int col) {
 }
 
 void Boggle::addWord(string word) {
-    takenWords.add(word);
+    playerWords.add(word);
     playerScore += word.size() - 3; // 1 point per char over 3
 }
 
-int Boggle::numWordsGuessed() {
-    return takenWords.size();
+int Boggle::numPlayerWords() {
+    return playerWords.size();
 }
 
 string Boggle::getPlayerWords() {
-    return takenWords.toString();
+    return playerWords.toString();
 }
 
 int Boggle::getPlayerScore() {
     return playerScore;
+}
+
+int Boggle::numComputerWords() {
+    return computerWords.size();
+}
+
+int Boggle::getComputerScore() {
+    return computerScore;
+}
+
+string Boggle::getComputerWords() {
+    return computerWords.toString();
+}
+
+bool Boggle::isValidComputerWord(string word) {
+    return word.size() >= 4 && lexicon.contains(word)
+            && !computerWords.contains(word) && !playerWords.contains(word);
+}
+
+void Boggle::findAllWords() {
+    for (int row = 0; row < gameBoard.nRows; row++) {
+        for (int col = 0; col < gameBoard.nCols; col++) {
+            this->recFindWords("", row, col);
+        }
+    }
+}
+
+void Boggle::recFindWords(string currentWord = "", int row = 0, int col = 0) {
+    if (!lexicon.containsPrefix(currentWord)) return;
+
+    if (isValidComputerWord(currentWord)) {
+        computerWords.add(currentWord);
+        computerScore += currentWord.size() - 3;
+    }
+
+    Cube cube = gameBoard.get(row, col);
+    cube.isMarked = true;
+    gameBoard.set(row, col, cube);
+
+    vector<int> neighbours = {-1, 0, 1};
+    for (int dy : neighbours) {
+        for (int dx : neighbours) {
+            if ((dx != 0 || dy !=0) && gameBoard.inBounds(row + dy, col + dx)
+                    && !gameBoard.get(row + dy, col + dx).isMarked) {
+
+                recFindWords(currentWord + cube.getUp(), row + dy, col + dx);
+            }
+        }
+    }
+
+    cube.isMarked = false;
+    gameBoard.set(row, col, cube);
 }
 
 string Boggle::getBoardStr() {

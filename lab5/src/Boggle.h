@@ -35,18 +35,27 @@ public:
     // Adds the correct word to the player
     void addWord(string word);
 
-    int numWordsGuessed();
+    int numPlayerWords();
 
     int getPlayerScore();
 
     string getPlayerWords();
 
-
-
     // Returns whether the word is valid
-    bool isValidWord(string word);
+    bool isValidPlayerWord(string word);
 
     bool existsOnBoard(string word);
+
+
+    int numComputerWords();
+
+    int getComputerScore();
+
+    string getComputerWords();
+
+    bool isValidComputerWord(string word);
+
+    void findAllWords();
 
     // Returns a string representation of the current board
     string getBoardStr();
@@ -54,12 +63,15 @@ public:
 private:
 
     bool recSearchWord(string word, int row, int col);
+    void recFindWords(string currentWord, int row, int col);
 
     Lexicon lexicon = Lexicon(DICTIONARY_FILE);
 
-    Set<string> takenWords;
+    Set<string> playerWords;
+    Set<string> computerWords;
 
     int playerScore = 0;
+    int computerScore = 0;
 
     struct Cube {
         vector<char> characters;
