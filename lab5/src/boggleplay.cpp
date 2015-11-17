@@ -1,6 +1,8 @@
-// You will edit and turn in this CPP file.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header and replace with your own
+// Authors: Viktor Holmgren and Yousif Touma
+// Responsible for running the main game loop: First it's the players turn to
+// try to find as many words as possible, then it's the computers turn which
+// find all words not found by the player.
+// The player wins if his/her score is greater than or equal to the computers.
 
 #include <cstdlib>
 #include <iostream>
@@ -10,15 +12,14 @@
 #include "Boggle.h"
 #include "bogglemain.h"
 #include "strlib.h"
-// TODO: include any other header files you need
 
 /*
  * Plays one game of Boggle using the given boggle game state object.
  */
 void playOneGame(Boggle& boggle) {
-    // TODO: implement this function (and add any other functions you like to help you)
 
-    boggle.resetBoard();
+    boggle.resetBoard(); // Reset and generate random board
+
     if (!yesOrNo("Do you want to generate a random board (Y/N)?")) {
         string board = "";
 
@@ -43,7 +44,7 @@ void playOneGame(Boggle& boggle) {
             break;
         }
 
-        //TODO: clearConsole();
+        clearConsole();
         line = toUpperCase(line);
         if (boggle.isValidPlayerWord(line)) {
 

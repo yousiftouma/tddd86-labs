@@ -1,8 +1,5 @@
-// This is the .cpp file you will edit and turn in.
-// We have provided a minimal skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header and replace it with your own
+// Authors: Viktor Holmgren and Yousif Touma
+// Contains all game logic for the boggle game.
 
 #include <sstream>
 #include <algorithm>
@@ -84,6 +81,8 @@ bool Boggle::recSearchWord(string word, int row, int col) {
         return false;
     }
     bool res = false;
+
+    // Mark current position
     Cube cube = gameBoard.get(row, col);
     cube.isMarked = true;
     gameBoard.set(row, col, cube);
@@ -98,6 +97,8 @@ bool Boggle::recSearchWord(string word, int row, int col) {
             }
         }
     }
+
+    // Un-mark position
     cube.isMarked = false;
     gameBoard.set(row, col, cube);
     return res;
@@ -150,9 +151,10 @@ void Boggle::recFindWords(string currentWord = "", int row = 0, int col = 0) {
 
     if (isValidComputerWord(currentWord)) {
         computerWords.add(currentWord);
-        computerScore += currentWord.size() - 3;
+        computerScore += currentWord.size() - 3; // 1 point per char over 3
     }
 
+    // Mark current position
     Cube cube = gameBoard.get(row, col);
     cube.isMarked = true;
     gameBoard.set(row, col, cube);
@@ -168,6 +170,7 @@ void Boggle::recFindWords(string currentWord = "", int row = 0, int col = 0) {
         }
     }
 
+    // Un-mark position
     cube.isMarked = false;
     gameBoard.set(row, col, cube);
 }
