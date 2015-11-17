@@ -23,6 +23,9 @@ public:
     // Basic constructor
     Boggle();
 
+    // Generates a random game board
+    void generateRandomBoard();
+
     // Force game board
     void setBoard(string board);
 

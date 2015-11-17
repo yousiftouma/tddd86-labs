@@ -32,6 +32,9 @@ void playOneGame(Boggle& boggle) {
         }
         boggle.setBoard(board);
     }
+    else {
+        boggle.generateRandomBoard();
+    }
 
     cout << boggle.getBoardStr() << endl;
 }
