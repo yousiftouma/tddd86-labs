@@ -27,7 +27,9 @@ map<int, string> buildEncodingMap(HuffmanNode* encodingTree);
 void encodeData(istream& input, const map<int, string>& encodingMap, obitstream& output);
 void decodeData(ibitstream& input, HuffmanNode* encodingTree, ostream& output);
 void compress(istream& input, obitstream& output);
+void writeFrequencyTable(map<int, int> freqTable, obitstream& output);
 void decompress(ibitstream& input, ostream& output);
+map<int, int> readFrequencyTable(ibitstream& input);
 void freeTree(HuffmanNode* node);
 
 #endif

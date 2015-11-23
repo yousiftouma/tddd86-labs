@@ -179,7 +179,6 @@ void decompress(ibitstream& input, ostream& output) {
 
     freeTree(encodingTree);
 }
-
 /*
  * Postorder traverse, frees allocated memory
  */
