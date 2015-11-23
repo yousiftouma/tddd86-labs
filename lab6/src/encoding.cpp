@@ -107,7 +107,29 @@ void writeStringAsBits(string str, obitstream& output) {
 }
 
 void decodeData(ibitstream& input, HuffmanNode* encodingTree, ostream& output) {
-    // TODO: implement this function
+
+    HuffmanNode* root = encodingTree;
+    HuffmanNode* current = encodingTree;
+    while (true) {
+        char bit = input.readBit();
+
+        if (bit == 0) {
+            current = current->zero;
+        }
+        else {
+            current = current->one;
+        }
+
+        if (current->isLeaf()) {
+
+            if (current->character == PSEUDO_EOF) {
+                break;
+            }
+
+            output.put(current->character);
+            current = root;
+        }
+    }
 }
 
 void compress(istream& input, obitstream& output) {
