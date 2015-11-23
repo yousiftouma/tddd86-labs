@@ -80,7 +80,30 @@ void encodingTraverse(const string prefix, const HuffmanNode* node, map<int, str
 }
 
 void encodeData(istream& input, const map<int, string> &encodingMap, obitstream& output) {
-    // TODO: implement this function
+    while (true) {
+        int byte = input.get();
+
+        // Found EOF
+        if (byte == -1) {
+            writeStringAsBits(encodingMap.at(PSEUDO_EOF), output);
+            break;
+        }
+        else {
+            writeStringAsBits(encodingMap.at(byte), output);
+        }
+    }
+}
+
+void writeStringAsBits(string str, obitstream& output) {
+    for (size_t i = 0; i < str.size(); ++i) {
+        if (str[i] == '1') {
+            output.writeBit(1);
+        }
+        else {
+            output.writeBit(0);
+        }
+        //output.writeBit(str[i] == "1" ? 1 : 0);
+    }
 }
 
 void decodeData(ibitstream& input, HuffmanNode* encodingTree, ostream& output) {
