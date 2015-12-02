@@ -30,9 +30,9 @@ void render_line(QGraphicsScene* scene, const Point& p1, const Point& p2) {
 
 Point COMPARATOR_POINT = Point(0, 0);
 bool m_comparator(Point a, Point b) {
-    //if (a.slopeTo(COMPARATOR_POINT) == b.slopeTo(COMPARATOR_POINT)) {
-     //   return a < b;
-    //}
+    if (a.slopeTo(COMPARATOR_POINT) == b.slopeTo(COMPARATOR_POINT)) {
+        return a < b;
+    }
     return a.slopeTo(COMPARATOR_POINT) < b.slopeTo(COMPARATOR_POINT);
 }
 
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // open file
-    string filename = "input20.txt";
+    string filename = "input100.txt";
     ifstream input;
     input.open(filename);
 
@@ -74,13 +74,14 @@ int main(int argc, char *argv[]) {
     // sort points by natural order
     // makes finding endpoints of line segments easy
     sort(points.begin(), points.end());
+    /*
     for (auto f : points) {
         cout << f << endl;
     }
     cout << "--------------" << endl;
+    */
 
     auto begin = chrono::high_resolution_clock::now();
-
 
     int linesFound = 0;
 
@@ -92,24 +93,26 @@ int main(int argc, char *argv[]) {
         vector<Point> sorted(first, last);
 
         sort(sorted.begin(), sorted.end(), m_comparator);
-        for (auto f : sorted) {
-            cout << COMPARATOR_POINT << " " << f << " " << COMPARATOR_POINT.slopeTo(f) << endl;
-        }
-        cout << "--------------" << endl;
+
+        //for (auto f : sorted) {
+        //    cout << COMPARATOR_POINT << " " << f << " " << COMPARATOR_POINT.slopeTo(f) << endl;
+        //}
+        //cout << "--------------" << endl;
+
 
         int pointsOnSameSlope = 1;
         for (int j = 1; j < sorted.size(); j++) {
             bool comparison = sorted[j].slopeTo(COMPARATOR_POINT) == sorted[j-1].slopeTo(COMPARATOR_POINT);
-            cout << "comparing j: " << sorted[j].slopeTo(COMPARATOR_POINT) << " and j-1: " << sorted[j-1].slopeTo(COMPARATOR_POINT) << endl;
+            //cout << "comparing j: " << sorted[j].slopeTo(COMPARATOR_POINT) << " and j-1: " << sorted[j-1].slopeTo(COMPARATOR_POINT) << endl;
             if (comparison) {
-                cout << "incremented points on line to " << pointsOnSameSlope + 1 << endl;
+                //cout << "incremented points on line to " << pointsOnSameSlope + 1 << endl;
                 pointsOnSameSlope++;
             }
             if (!comparison) {
                 if (pointsOnSameSlope >= 3) {
-                    cout << "found a line with " << pointsOnSameSlope + 1 << " points!" << endl;
-                    cout << "they have slope " << sorted[j-1].slopeTo(COMPARATOR_POINT) << endl;
-                    cout << "and startpoint: " << points[i] << " and endpoint: " << sorted[j-1] << endl;
+                    //cout << "found a line with " << pointsOnSameSlope + 1 << " points!" << endl;
+                    //cout << "they have slope " << sorted[j-1].slopeTo(COMPARATOR_POINT) << endl;
+                    //cout << "and startpoint: " << points[i] << " and endpoint: " << sorted[j-1] << endl;
                     render_line(scene, points[i], sorted[j-1]);
                     a.processEvents();
                     linesFound++;
@@ -118,9 +121,9 @@ int main(int argc, char *argv[]) {
             }
             else if (j == sorted.size()-1) {
                 if (pointsOnSameSlope >= 3) {
-                    cout << "found a line with " << pointsOnSameSlope + 1 << " points!" << endl;
-                    cout << "they have slope " << sorted[j].slopeTo(COMPARATOR_POINT) << endl;
-                    cout << "and startpoint: " << points[i] << " and endpoint: " << sorted[j-1] << endl;
+                    //cout << "found a line with " << pointsOnSameSlope + 1 << " points!" << endl;
+                    //cout << "they have slope " << sorted[j].slopeTo(COMPARATOR_POINT) << endl;
+                    //cout << "and startpoint: " << points[i] << " and endpoint: " << sorted[j-1] << endl;
                     render_line(scene, points[i], sorted[j]);
                     a.processEvents();
                     linesFound++;
@@ -150,6 +153,7 @@ int main(int argc, char *argv[]) {
         }
     }
     */
+
 
     auto end = chrono::high_resolution_clock::now();
     cout << "Computing line segments took "
