@@ -1,11 +1,11 @@
 /**********************************************************************
- *  Mönsterigenkänning readme.txt
+ *  MÃ¶nsterigenkÃ¤nning readme.txt
  **********************************************************************/
 
 /**********************************************************************
- *  Empirisk    Fyll i tabellen nedan med riktiga körtider i sekunder
- *  analys      när det känns vettigt att vänta på hela beräkningen.
- *              Ge uppskattningar av körtiden i övriga fall.
+ *  Empirisk    Fyll i tabellen nedan med riktiga kÃ¶rtider i sekunder
+ *  analys      nÃ¤r det kÃ¤nns vettigt att vÃ¤nta pÃ¥ hela berÃ¤kningen.
+ *              Ge uppskattningar av kÃ¶rtiden i Ã¶vriga fall.
  *
  **********************************************************************/
     
@@ -23,7 +23,7 @@
 
 
 /**********************************************************************
- *  Teoretisk   Ge ordo-uttryck för värstafallstiden för programmen som
+ *  Teoretisk   Ge ordo-uttryck fÃ¶r vÃ¤rstafallstiden fÃ¶r programmen som
  *  analys      en funktion av N. Ge en kort motivering.
  *
  **********************************************************************/
@@ -31,6 +31,6 @@
 Brute: O(n^4)
 
 What the algorithm does is it goes through all groups of four points where the order matters, this is by definition n choose 4 groups which is n!/4!(n-4)! which we can simplify by disregarding constants to n*(n-1)*(n-2)*(n-3) = O(n^4)
-
+This case will rarely happen as it requires the first three points to collinear, therefor the average case is closer to n^3 (the last iteration is skipped).
 
 Sortering:
