@@ -28,11 +28,16 @@ void render_line(QGraphicsScene* scene, const Point& p1, const Point& p2) {
     p1.lineTo(scene, p2);
 }
 
+Point COMPARATOR_POINT = Point(0, 0);
+bool m_comparator(Point a, Point b) {
+    return a.slopeTo(COMPARATOR_POINT) < b.slopeTo(COMPARATOR_POINT);
+}
+
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // open file
-    string filename = "input100.txt";
+    string filename = "input800.txt";
     ifstream input;
     input.open(filename);
 
@@ -66,8 +71,35 @@ int main(int argc, char *argv[]) {
     // sort points by natural order
     // makes finding endpoints of line segments easy
     sort(points.begin(), points.end());
+
     auto begin = chrono::high_resolution_clock::now();
 
+
+    int linesFound = 0;
+
+
+    for (int i = 0; i < points.size(); i++) {
+        COMPARATOR_POINT = points[i];
+
+        sort(points.begin() + (i + 1), points.end(), m_comparator);
+
+        int pointsOfSameSlope = 1;
+        for (int j = i + 2; j < points.size(); j++) {
+            if (points[j].slopeTo(COMPARATOR_POINT) == points[j-1].slopeTo(COMPARATOR_POINT)) {
+                pointsOfSameSlope++;
+            }
+            else {
+                if (pointsOfSameSlope >= 3) {
+                    render_line(scene, points[i], points[j-1]);
+                    a.processEvents();
+                    linesFound++;
+                }
+                pointsOfSameSlope = 1;
+            }
+        }
+    }
+
+    /*
     // iterate through all combinations of 4 points
     for (int i = 0 ; i < N-3 ; ++i) {
         for (int j = i+1 ; j < N-2 ; ++j) {
@@ -77,6 +109,7 @@ int main(int argc, char *argv[]) {
                     for (int m{k+1} ; m < N ; ++m) {
                         if (points.at(i).slopeTo(points.at(j)) == points.at(i).slopeTo(points.at(m))) {
                             render_line(scene, points.at(i), points.at(m));
+                            linesFound++;
                             a.processEvents(); // show rendered line
                         }
                     }
@@ -84,11 +117,13 @@ int main(int argc, char *argv[]) {
             }
         }
     }
+    */
 
     auto end = chrono::high_resolution_clock::now();
     cout << "Computing line segments took "
          << std::chrono::duration_cast<chrono::milliseconds>(end - begin).count()
          << " milliseconds." << endl;
+    cout << "Lines found: " << linesFound << endl;
 
     return a.exec(); // start Qt event loop
 }
