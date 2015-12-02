@@ -30,6 +30,9 @@ void render_line(QGraphicsScene* scene, const Point& p1, const Point& p2) {
 
 Point COMPARATOR_POINT = Point(0, 0);
 bool m_comparator(Point a, Point b) {
+    //if (a.slopeTo(COMPARATOR_POINT) == b.slopeTo(COMPARATOR_POINT)) {
+     //   return a < b;
+    //}
     return a.slopeTo(COMPARATOR_POINT) < b.slopeTo(COMPARATOR_POINT);
 }
 
@@ -37,7 +40,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // open file
-    string filename = "input800.txt";
+    string filename = "input20.txt";
     ifstream input;
     input.open(filename);
 
@@ -71,33 +74,62 @@ int main(int argc, char *argv[]) {
     // sort points by natural order
     // makes finding endpoints of line segments easy
     sort(points.begin(), points.end());
+    for (auto f : points) {
+        cout << f << endl;
+    }
+    cout << "--------------" << endl;
 
     auto begin = chrono::high_resolution_clock::now();
 
 
     int linesFound = 0;
 
-
-    for (int i = 0; i < points.size(); i++) {
+    for (int i = 0; i < points.size() - 3; i++) {
         COMPARATOR_POINT = points[i];
 
-        sort(points.begin() + (i + 1), points.end(), m_comparator);
+        vector<Point>::const_iterator first = points.begin() + (i + 1);
+        vector<Point>::const_iterator last = points.end();
+        vector<Point> sorted(first, last);
 
-        int pointsOfSameSlope = 1;
-        for (int j = i + 2; j < points.size(); j++) {
-            if (points[j].slopeTo(COMPARATOR_POINT) == points[j-1].slopeTo(COMPARATOR_POINT)) {
-                pointsOfSameSlope++;
+        sort(sorted.begin(), sorted.end(), m_comparator);
+        for (auto f : sorted) {
+            cout << COMPARATOR_POINT << " " << f << " " << COMPARATOR_POINT.slopeTo(f) << endl;
+        }
+        cout << "--------------" << endl;
+
+        int pointsOnSameSlope = 1;
+        for (int j = 1; j < sorted.size(); j++) {
+            bool comparison = sorted[j].slopeTo(COMPARATOR_POINT) == sorted[j-1].slopeTo(COMPARATOR_POINT);
+            cout << "comparing j: " << sorted[j].slopeTo(COMPARATOR_POINT) << " and j-1: " << sorted[j-1].slopeTo(COMPARATOR_POINT) << endl;
+            if (comparison) {
+                cout << "incremented points on line to " << pointsOnSameSlope + 1 << endl;
+                pointsOnSameSlope++;
             }
-            else {
-                if (pointsOfSameSlope >= 3) {
-                    render_line(scene, points[i], points[j-1]);
+            if (!comparison) {
+                if (pointsOnSameSlope >= 3) {
+                    cout << "found a line with " << pointsOnSameSlope + 1 << " points!" << endl;
+                    cout << "they have slope " << sorted[j-1].slopeTo(COMPARATOR_POINT) << endl;
+                    cout << "and startpoint: " << points[i] << " and endpoint: " << sorted[j-1] << endl;
+                    render_line(scene, points[i], sorted[j-1]);
                     a.processEvents();
                     linesFound++;
                 }
-                pointsOfSameSlope = 1;
+                pointsOnSameSlope = 1;
+            }
+            else if (j == sorted.size()-1) {
+                if (pointsOnSameSlope >= 3) {
+                    cout << "found a line with " << pointsOnSameSlope + 1 << " points!" << endl;
+                    cout << "they have slope " << sorted[j].slopeTo(COMPARATOR_POINT) << endl;
+                    cout << "and startpoint: " << points[i] << " and endpoint: " << sorted[j-1] << endl;
+                    render_line(scene, points[i], sorted[j]);
+                    a.processEvents();
+                    linesFound++;
+                }
+                pointsOnSameSlope = 1;
             }
         }
     }
+
 
     /*
     // iterate through all combinations of 4 points
