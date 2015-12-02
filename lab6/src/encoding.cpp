@@ -7,7 +7,7 @@ map<int, int> buildFrequencyTable(istream& input) {
     map<int, int> freqTable;
 
     while(true) {
-        char byte = input.get();
+        int byte = input.get();
 
         // EOF found
         if (byte == -1) {
