@@ -11,6 +11,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <set>
 #include <chrono>
 #include "Point.h"
 
@@ -40,7 +41,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // open file
-    string filename = "input12800.txt";
+    string filename = "input56.txt";
     ifstream input;
     input.open(filename);
 
@@ -79,11 +80,12 @@ int main(int argc, char *argv[]) {
 
     int linesFound = 0;
 
+    map<double, set<Point> > lines;
+
     for (int i = 0; i < points.size() - 3; i++) {
         COMPARATOR_POINT = points[i];
         vector<Point> sorted(points.cbegin() + (i + 1), points.cend());
         sort(sorted.begin(), sorted.end(), m_comparator);
-
 
         int pointsOnSameSlope = 1;
         for (int j = 1; j < sorted.size(); j++) {
@@ -93,22 +95,51 @@ int main(int argc, char *argv[]) {
             }
             if (!comparison) {
                 if (pointsOnSameSlope >= 3) {
-                    render_line(scene, points[i], sorted[j-1]);
-                    a.processEvents();
-                    linesFound++;
+                    double slope = COMPARATOR_POINT.slopeTo(sorted[j-1]);
+
+                    if (lines.find(slope) == lines.end()){
+                        set<Point> this_set;
+                        this_set.insert(sorted[j-1]);
+                        lines[slope] = this_set;
+                        render_line(scene, points[i], sorted[j-1]);
+                        a.processEvents();
+                        linesFound++;
+                    }
+                    else if (lines[slope].find(sorted[j-1]) == lines[slope].end()){
+                                lines[slope].insert(sorted[j-1]);
+                                render_line(scene, points[i], sorted[j-1]);
+                                a.processEvents();
+                                linesFound++;
+                    }
                 }
                 pointsOnSameSlope = 1;
             }
+
+
             else if (j == sorted.size()-1) {
                 if (pointsOnSameSlope >= 3) {
-                    render_line(scene, points[i], sorted[j]);
-                    a.processEvents();
-                    linesFound++;
+                    double slope = COMPARATOR_POINT.slopeTo(sorted[j]);
+                    if (lines.find(slope) == lines.end()){
+                        set<Point> this_set;
+                        this_set.insert(sorted[j]);
+                        lines[slope] = this_set;
+                        render_line(scene, points[i], sorted[j]);
+                        a.processEvents();
+                        linesFound++;
+                    }
+                    else if (lines[slope].find(sorted[j]) == lines[slope].end()){
+                                lines[slope].insert(sorted[j]);
+                                render_line(scene, points[i], sorted[j]);
+                                a.processEvents();
+                                linesFound++;
+                    }
                 }
                 pointsOnSameSlope = 1;
             }
         }
     }
+
+
 
 
     /*
