@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     // open file
-    string filename = "input100.txt";
+    string filename = "input12800.txt";
     ifstream input;
     input.open(filename);
 
@@ -74,12 +74,6 @@ int main(int argc, char *argv[]) {
     // sort points by natural order
     // makes finding endpoints of line segments easy
     sort(points.begin(), points.end());
-    /*
-    for (auto f : points) {
-        cout << f << endl;
-    }
-    cout << "--------------" << endl;
-    */
 
     auto begin = chrono::high_resolution_clock::now();
 
@@ -87,32 +81,18 @@ int main(int argc, char *argv[]) {
 
     for (int i = 0; i < points.size() - 3; i++) {
         COMPARATOR_POINT = points[i];
-
-        vector<Point>::const_iterator first = points.begin() + (i + 1);
-        vector<Point>::const_iterator last = points.end();
-        vector<Point> sorted(first, last);
-
+        vector<Point> sorted(points.cbegin() + (i + 1), points.cend());
         sort(sorted.begin(), sorted.end(), m_comparator);
-
-        //for (auto f : sorted) {
-        //    cout << COMPARATOR_POINT << " " << f << " " << COMPARATOR_POINT.slopeTo(f) << endl;
-        //}
-        //cout << "--------------" << endl;
 
 
         int pointsOnSameSlope = 1;
         for (int j = 1; j < sorted.size(); j++) {
             bool comparison = sorted[j].slopeTo(COMPARATOR_POINT) == sorted[j-1].slopeTo(COMPARATOR_POINT);
-            //cout << "comparing j: " << sorted[j].slopeTo(COMPARATOR_POINT) << " and j-1: " << sorted[j-1].slopeTo(COMPARATOR_POINT) << endl;
             if (comparison) {
-                //cout << "incremented points on line to " << pointsOnSameSlope + 1 << endl;
                 pointsOnSameSlope++;
             }
             if (!comparison) {
                 if (pointsOnSameSlope >= 3) {
-                    //cout << "found a line with " << pointsOnSameSlope + 1 << " points!" << endl;
-                    //cout << "they have slope " << sorted[j-1].slopeTo(COMPARATOR_POINT) << endl;
-                    //cout << "and startpoint: " << points[i] << " and endpoint: " << sorted[j-1] << endl;
                     render_line(scene, points[i], sorted[j-1]);
                     a.processEvents();
                     linesFound++;
@@ -121,9 +101,6 @@ int main(int argc, char *argv[]) {
             }
             else if (j == sorted.size()-1) {
                 if (pointsOnSameSlope >= 3) {
-                    //cout << "found a line with " << pointsOnSameSlope + 1 << " points!" << endl;
-                    //cout << "they have slope " << sorted[j].slopeTo(COMPARATOR_POINT) << endl;
-                    //cout << "and startpoint: " << points[i] << " and endpoint: " << sorted[j-1] << endl;
                     render_line(scene, points[i], sorted[j]);
                     a.processEvents();
                     linesFound++;
