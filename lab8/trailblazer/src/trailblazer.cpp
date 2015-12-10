@@ -162,6 +162,53 @@ vector<Node *> aStar(BasicGraph& graph, Vertex* start, Vertex* end) {
     //       (The function body code provided below is just a stub that returns
     //        an empty vector so that the overall project will compile.
     //        You should remove that code and replace it with your implementation.)
+    graph.resetData();
+
+    PriorityQueue<Vertex*> pqueue;
+
+    // Set initial costs
+    for (Node* node : graph.getNodeSet()) {
+        node->cost = numeric_limits<double>::infinity();
+        pqueue.enqueue(node, node->cost);
+    }
+
+    start->cost = 0;
+    pqueue.changePriority(start, start->heuristic(end));
+
+    Vertex* currentBestVertex;
+
+    while (!pqueue.isEmpty()) {
+        currentBestVertex = pqueue.dequeue();
+        currentBestVertex->setColor(GREEN);
+        currentBestVertex->visited = true;
+
+        if (currentBestVertex == end) {
+            break;
+        }
+
+        for (Vertex* neighbour : graph.getNeighbors(currentBestVertex)) {
+            if (!neighbour->visited) {
+                double cost = currentBestVertex->cost + graph.getArc(currentBestVertex, neighbour)->cost;
+                if (cost < neighbour->cost) {
+                    neighbour->cost = cost;
+                    neighbour->previous = currentBestVertex;
+                    neighbour->setColor(YELLOW);
+                    pqueue.changePriority(neighbour, cost + neighbour->heuristic(end));
+                }
+            }
+        }
+    }
+
     vector<Vertex*> path;
+    while (true) {
+        if (currentBestVertex->previous == NULL) {
+            path.push_back(currentBestVertex);
+            break;
+        }
+
+        path.push_back(currentBestVertex);
+        currentBestVertex = currentBestVertex->previous;
+    }
+    reverse(path.begin(), path.end());
     return path;
 }
