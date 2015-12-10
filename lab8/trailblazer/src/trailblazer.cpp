@@ -5,6 +5,8 @@
 
 #include "costs.h"
 #include "trailblazer.h"
+#include "queue.h"
+#include <algorithm>
 // TODO: include any other headers you need; remove this comment
 using namespace std;
 
@@ -46,6 +48,7 @@ vector<Node *> depthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end) {
 
     graph.resetData();
     vector<Vertex*> path = dfsTraverse(graph, start, end);
+    reverse(path.begin(), path.end());
     return path;
 }
 
@@ -55,7 +58,43 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end)
     //       (The function body code provided below is just a stub that returns
     //        an empty vector so that the overall project will compile.
     //        You should remove that code and replace it with your implementation.)
+
+    graph.resetData();
+
     vector<Vertex*> path;
+    Queue<Vertex*> nodeQueue;
+    nodeQueue.enqueue(start);
+
+    Vertex* currentVertex;
+    while (!nodeQueue.isEmpty()) {
+        currentVertex = nodeQueue.dequeue();
+        currentVertex->setColor(GREEN);
+
+        if (currentVertex == end) {
+            break;
+        }
+        currentVertex->visited = true;
+
+        for (Vertex* neighbour : graph.getNeighbors(currentVertex)) {
+
+            if (!neighbour->visited) {
+                neighbour->previous = currentVertex;
+                neighbour->setColor(YELLOW);
+                nodeQueue.enqueue(neighbour);
+            }
+        }
+    }
+
+    while (true) {
+        if (currentVertex->previous == NULL) {
+            path.push_back(currentVertex);
+            break;
+        }
+
+        path.push_back(currentVertex);
+        currentVertex = currentVertex->previous;
+    }
+    reverse(path.begin(), path.end());
     return path;
 }
 
